@@ -156,3 +156,38 @@ WHY BINARY SEARCH IS SUPERIOR:
 RECOMMENDATION:
 Always use Binary Search for sorted arrays to achieve O(log n) efficiency.
 '''
+
+
+
+# ============================================================================
+# TEST CASES AND EXAMPLES
+# ============================================================================
+if __name__ == "__main__":
+    test_cases = [
+        ([-1, 0, 3, 1, 4, 5, 2, 6], 0, 1),  # Target at index 1
+        ([5], 5, 0),                         # Single element match
+        ([-1, 0, 3, 1, 4, 5, 2, 6], 13, -1),# Target not found
+        ([1, 3, 5, 7, 9], 9, 4),             # Target at end
+        ([1, 3, 5, 7, 9], 1, 0),             # Target at start
+        ([1, 3, 5, 7, 9], 5, 2),             # Target in middle
+        ([1, 3, 5, 7, 9], 2, -1),            # Not in array
+    ]
+    
+    solution = Solution()
+    
+    print("=" * 70)
+    print("LeetCode 704: Binary Search - Test Results")
+    print("=" * 70)
+    
+    for i, (nums, target, expected) in enumerate(test_cases, 1):
+        result = solution.search(nums, target)
+        status = "PASS" if result == expected else "FAIL"
+        print(f"\nTest {i}: {status}")
+        print(f"  Array:    {nums}")
+        print(f"  Target:   {target}")
+        print(f"  Expected: {expected}, Got: {result}")
+    
+    print("\n" + "=" * 70)
+    print("SUMMARY: Binary Search Approach")
+    print("Time:  O(log n) | Space: O(1)")
+    print("=" * 70)
