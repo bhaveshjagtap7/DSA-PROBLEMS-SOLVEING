@@ -1,23 +1,28 @@
-# Leetcode 704 Binary Search
-# Topic: Array + Binary Search
-# Time: O(log n)
-# Space: O(1)
+"""
+LeetCode 704: Binary Search
 
-class Solution(object):
-    def search(self, nums, target):
-        left = 0
-        right = len(nums)-1
+Problem Statement:
+Given an array of integers nums which is sorted in ascending order, and an integer target,
+write a function to search target in nums. If target exists, return its index. Otherwise, 
+return -1.
 
-        while left <= right:
-            mid = (left + right)//2
+You must write an algorithm with O(log n) time complexity.
 
-            if nums[mid] == target:
-                return mid
+Example:
+- Input: nums = [-1,0,3,1,4,5,2,6], target = 0
+- Output: 1
+- Explanation: 0 is at index 1
 
-            elif nums[mid] < target:
-                left = mid + 1
+- Input: nums = [5], target = 5
+- Output: 0
 
-            else:
-                right = mid - 1
+Constraints:
+- 1 <= nums.length <= 10^4
+- -10^4 < nums[i], target < 10^4
+- All integers in nums are unique.
+- nums is sorted in ascending order.
 
-        return -1
+Problem Type: Array, Binary Search
+Topic: Divide and Conquer
+Difficulty: Easy
+"""
