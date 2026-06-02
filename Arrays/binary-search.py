@@ -60,3 +60,68 @@ def search_bruteforce(nums, target):
     
     # Target not found
     return -1
+
+
+
+# ============================================================================
+# APPROACH 2: OPTIMIZED - BINARY SEARCH (RECOMMENDED)
+# ============================================================================
+def search_binary(nums, target):
+    """
+    Optimized Binary Search Approach
+    
+    Strategy: Divide and conquer using two pointers.
+    - Start with left at beginning, right at end
+    - Calculate middle point
+    - Compare mid element with target
+    - If equal, return index
+    - If mid < target, search right half (move left pointer)
+    - If mid > target, search left half (move right pointer)
+    - Continue until found or search space exhausted
+    
+    Why it's optimal:
+    - Each iteration eliminates half of remaining elements
+    - Dramatically faster for large datasets
+    - Must work on SORTED arrays
+    
+    Time Complexity: O(log n) - Each step halves search space
+    Space Complexity: O(1) - Only using two pointer variables
+    
+    Args:
+        nums: Sorted list of integers
+        target: Integer to search for
+    
+    Returns:
+        Index of target if found, -1 otherwise
+    """
+    # Initialize two pointers
+    left = 0
+    right = len(nums) - 1
+    
+    # Continue while search space is valid
+    while left <= right:
+        # Calculate middle index
+        mid = (left + right) // 2
+        
+        # Found target
+        if nums[mid] == target:
+            return mid
+        
+        # Target is in right half
+        elif nums[mid] < target:
+            left = mid + 1
+        
+        # Target is in left half
+        else:
+            right = mid - 1
+    
+    # Target not found
+    return -1
+
+
+class Solution(object):
+    """LeetCode 704 Binary Search Solution"""
+    
+    def search(self, nums, target):
+        """Search for target in sorted array."""
+        return search_binary(nums, target)
