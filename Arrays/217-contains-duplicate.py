@@ -58,14 +58,17 @@ def containsDuplicate_bruteforce(nums):
     Returns:
         Boolean - True if duplicate exists, False otherwise
     """
-    # Check every element against every other element
-    for i in range(len(nums)):
-        for j in range(i + 1, len(nums)):
+    array_length = len(nums)
+    
+    # Outer loop: Check each element
+    for first_index in range(array_length):
+        # Inner loop: Compare with remaining elements
+        for second_index in range(first_index + 1, array_length):
             # If we find matching elements, duplicate exists
-            if nums[i] == nums[j]:
+            if nums[first_index] == nums[second_index]:
                 return True
     
-    # No duplicates found
+    # No duplicates found after checking all pairs
     return False
 
 
@@ -120,18 +123,19 @@ def containsDuplicate_hashset(nums):
     Q: What about counting frequency?
        A: Use hash map instead of set, but not needed here.
     """
-    seen = set()  # Create empty set to track seen elements
+    # Set to track elements we've already seen
+    seen_numbers = set()
     
-    # Iterate through each number in the array
-    for num in nums:
-        # If number already in set, we found a duplicate
-        if num in seen:
+    # Check each number in the array
+    for current_number in nums:
+        # If number already exists in set, we found a duplicate
+        if current_number in seen_numbers:
             return True
         
-        # Add number to set for future lookups
-        seen.add(num)
+        # Add current number to set for future lookups
+        seen_numbers.add(current_number)
     
-    # No duplicates found
+    # Checked all elements, no duplicates found
     return False
 
 

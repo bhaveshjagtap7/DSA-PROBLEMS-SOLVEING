@@ -148,20 +148,24 @@ class Solution(object):
         Q: What if we can't use extra space?
           A: Only option is O(n²) brute force
         """
-        # Hash map to store {number: index}
-        seen = {}
+        # Hash map to store {number: index} for quick complement lookup
+        number_to_index = {}
         
-        # Iterate through array
-        for i in range(len(nums)):
-            # Calculate what number we need to reach target
-            remaining = target - nums[i]
+        # Iterate through each element with its index
+        for current_index in range(len(nums)):
+            current_number = nums[current_index]
             
-            # Check if we've seen the complement
-            if remaining in seen:
-                return [seen[remaining], i]
+            # Calculate what number we need to reach the target
+            required_complement = target - current_number
             
-            # Store current number and its index
-            seen[nums[i]] = i
+            # Check if we've already seen the complement number
+            if required_complement in number_to_index:
+                # Found the pair! Return both indices
+                complement_index = number_to_index[required_complement]
+                return [complement_index, current_index]
+            
+            # Haven't seen complement yet, store current number and its index
+            number_to_index[current_number] = current_index
 
 
 # ============================================================================

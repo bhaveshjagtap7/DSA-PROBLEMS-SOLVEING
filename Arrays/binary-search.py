@@ -68,13 +68,15 @@ def search_bruteforce(nums, target):
     Returns:
         Index of target if found, -1 otherwise
     """
-    # Iterate through each element
-    for i in range(len(nums)):
-        # Found target
-        if nums[i] == target:
-            return i
+    array_length = len(nums)
     
-    # Target not found
+    # Check each element one by one
+    for current_index in range(array_length):
+        # Check if current element matches target
+        if nums[current_index] == target:
+            return current_index
+    
+    # Target not found in entire array
     return -1
 
 
@@ -147,28 +149,29 @@ def search_binary(nums, target):
     Q: What about rotated sorted array?
        A: Modified binary search (different problem)
     """
-    # Initialize two pointers
-    left = 0
-    right = len(nums) - 1
+    # Initialize left and right pointers for search space
+    left_pointer = 0
+    right_pointer = len(nums) - 1
     
-    # Continue while search space is valid
-    while left <= right:
-        # Calculate middle index (safe from overflow)
-        mid = (left + right) // 2
+    # Continue searching while there are elements to check
+    while left_pointer <= right_pointer:
+        # Calculate middle index (safe from overflow in Python)
+        middle_index = (left_pointer + right_pointer) // 2
+        middle_value = nums[middle_index]
         
-        # Found target
-        if nums[mid] == target:
-            return mid
+        # Check if we found the target
+        if middle_value == target:
+            return middle_index  # Found target at middle
         
-        # Target is in right half
-        elif nums[mid] < target:
-            left = mid + 1
+        # Target must be in right half (larger values)
+        elif middle_value < target:
+            left_pointer = middle_index + 1  # Eliminate left half
         
-        # Target is in left half
+        # Target must be in left half (smaller values)
         else:
-            right = mid - 1
+            right_pointer = middle_index - 1  # Eliminate right half
     
-    # Target not found
+    # Search space exhausted, target not in array
     return -1
 
 
