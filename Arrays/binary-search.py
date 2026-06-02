@@ -26,3 +26,37 @@ Problem Type: Array, Binary Search
 Topic: Divide and Conquer
 Difficulty: Easy
 """
+
+
+# ============================================================================
+# APPROACH 1: BRUTE FORCE - LINEAR SEARCH
+# ============================================================================
+def search_bruteforce(nums, target):
+    """
+    Brute Force Approach: Linear Search
+    
+    Strategy: Simply iterate through the array and check each element.
+    
+    Time Complexity: O(n) - We might need to check every element
+    Space Complexity: O(1) - No extra space used
+    
+    Why it's suboptimal:
+    - For a sorted array, we're not leveraging the sorted property
+    - In worst case, we scan entire array (when target is at end or missing)
+    - Not suitable for large datasets
+    
+    Args:
+        nums: Sorted list of integers
+        target: Integer to search for
+    
+    Returns:
+        Index of target if found, -1 otherwise
+    """
+    # Iterate through each element
+    for i in range(len(nums)):
+        # Found target
+        if nums[i] == target:
+            return i
+    
+    # Target not found
+    return -1
