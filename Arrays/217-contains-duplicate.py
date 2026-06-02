@@ -1,7 +1,12 @@
 """
 LeetCode 217: Contains Duplicate
+
 Problem: Given an integer array nums, return true if any value appears at least twice 
 in the array, and return false if every element is distinct.
+
+Constraints:
+- 1 <= nums.length <= 10^5
+- -10^9 <= nums[i] <= 10^9
 
 Time Complexity Analysis:
 - Brute Force: O(n²)
@@ -10,6 +15,24 @@ Time Complexity Analysis:
 Space Complexity Analysis:
 - Brute Force: O(1)
 - Hash Set: O(n)
+"""
+
+
+# ============================================================================
+# EDGE CASES TO CONSIDER
+# ============================================================================
+"""
+1. Empty array → Return False
+2. Single element → Return False (no duplicate possible)
+3. Two identical elements → Return True
+4. All elements same → Return True
+5. No duplicates → Return False
+6. Duplicate at start and end → Return True
+7. Adjacent duplicates → Return True
+8. Negative numbers → Handle correctly
+9. Zeros → Handle correctly
+10. Large numbers → Within constraints
+11. Multiple duplicates → Return True (early)
 """
 
 # ============================================================================
@@ -206,31 +229,39 @@ Iteration 2: num = 5
 # ============================================================================
 
 if __name__ == "__main__":
-    # Test cases
+    # Test cases with edge cases
     test_cases = [
-        ([1, 2, 3, 1], True),           # Duplicate at beginning and end
-        ([1, 2, 3, 4], False),          # No duplicates
-        ([99, 99], True),               # Adjacent duplicates
-        ([1], False),                   # Single element
-        ([], False),                    # Empty array
-        ([1, 2, 3, 4, 5, 1], True),    # Duplicate far apart
-        ([-1, -1], True),               # Negative duplicates
-        ([1, 0, 1, 4, 1, 3], True),    # Multiple occurrences
+        # (input, expected, description)
+        ([1, 2, 3, 1], True, "Basic duplicate at start and end"),
+        ([1, 2, 3, 4], False, "No duplicates"),
+        ([99, 99], True, "Adjacent duplicates"),
+        ([1], False, "Single element"),
+        ([], False, "Empty array"),
+        ([1, 2, 3, 4, 5, 1], True, "Duplicate far apart"),
+        ([-1, -1], True, "Negative duplicates"),
+        ([1, 0, 1, 4, 1, 3], True, "Multiple occurrences"),
+        ([0, 0], True, "Zero duplicates"),
+        ([1, 2, 3, 4, 5], False, "Sequential no duplicates"),
+        ([5, 4, 3, 2, 1], False, "Reverse sequential no duplicates"),
+        ([-5, -4, -3, -2, -1], False, "Negative sequential no duplicates"),
+        ([1000000, 999999, 1000000], True, "Large numbers with duplicate"),
+        ([1, 1, 1, 1, 1], True, "All elements same"),
+        ([10, 20, 30, 10], True, "Duplicate in middle"),
     ]
     
     print("=" * 70)
     print("LeetCode 217: Contains Duplicate - All Solutions Test")
     print("=" * 70)
     
-    for i, (nums, expected) in enumerate(test_cases, 1):
+    for i, (nums, expected, desc) in enumerate(test_cases, 1):
         # Test Brute Force
-        result_bf = containsDuplicate_bruteforce(nums)
+        result_bf = containsDuplicate_bruteforce(nums[:])  # Pass copy
         
         # Test Hash Set
-        result_hs = containsDuplicate_hashset(nums)
+        result_hs = containsDuplicate_hashset(nums[:])  # Pass copy
         
         # Test Set Comparison
-        result_sc = containsDuplicate_set_comparison(nums)
+        result_sc = containsDuplicate_set_comparison(nums[:])  # Pass copy
         
         # Check if all match expected output
         all_correct = (result_bf == expected and 
@@ -239,11 +270,13 @@ if __name__ == "__main__":
         
         status = "✓ PASS" if all_correct else "✗ FAIL"
         print(f"\nTest {i}: {status}")
+        print(f"  Desc:      {desc}")
         print(f"  Input:     {nums}")
         print(f"  Expected:  {expected}")
-        print(f"  BruteForce: {result_bf} | HashSet: {result_hs} | SetComp: {result_sc}")
+        print(f"  Results:   BF={result_bf} | HS={result_hs} | SC={result_sc}")
     
     print("\n" + "=" * 70)
+    print(f"SUMMARY: {len(test_cases)} tests completed")
     print("RECOMMENDATION: Use HashSet approach for production code")
     print("- Best time complexity: O(n)")
     print("- Reasonable space trade-off: O(n)")

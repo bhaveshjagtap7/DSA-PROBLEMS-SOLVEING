@@ -9,12 +9,9 @@ return -1.
 You must write an algorithm with O(log n) time complexity.
 
 Example:
-- Input: nums = [-1,0,3,1,4,5,2,6], target = 0
-- Output: 1
-- Explanation: 0 is at index 1
-
-- Input: nums = [5], target = 5
-- Output: 0
+- Input: nums = [-1,0,3,5,9,12], target = 9
+- Output: 4
+- Explanation: 9 is at index 4
 
 Constraints:
 - 1 <= nums.length <= 10^4
@@ -25,6 +22,25 @@ Constraints:
 Problem Type: Array, Binary Search
 Topic: Divide and Conquer
 Difficulty: Easy
+"""
+
+
+# ============================================================================
+# EDGE CASES TO CONSIDER
+# ============================================================================
+"""
+1. Single element array (target found)
+2. Single element array (target not found)
+3. Target at first index
+4. Target at last index
+5. Target in middle
+6. Target not in array (too small)
+7. Target not in array (too large)
+8. Target not in array (in between values)
+9. Two element array
+10. All negative numbers
+11. All positive numbers
+12. Mix of negative and positive
 """
 
 
@@ -258,31 +274,50 @@ Iteration 2:
 # ============================================================================
 if __name__ == "__main__":
     test_cases = [
-        ([-1, 0, 3, 5, 9, 12], 9, 4),       # Target in right half
-        ([5], 5, 0),                         # Single element match
-        ([-1, 0, 3, 5, 9, 12], 2, -1),      # Target not found
-        ([1, 3, 5, 7, 9], 9, 4),             # Target at end
-        ([1, 3, 5, 7, 9], 1, 0),             # Target at start
-        ([1, 3, 5, 7, 9], 5, 2),             # Target in middle
-        ([1, 3, 5, 7, 9], 2, -1),            # Not in array
-        ([2, 5], 5, 1),                      # Two elements
+        # (nums, target, expected, description)
+        ([-1, 0, 3, 5, 9, 12], 9, 4, "Target in right half"),
+        ([5], 5, 0, "Single element match"),
+        ([5], -5, -1, "Single element no match"),
+        ([-1, 0, 3, 5, 9, 12], 2, -1, "Target not found"),
+        ([1, 3, 5, 7, 9], 9, 4, "Target at end"),
+        ([1, 3, 5, 7, 9], 1, 0, "Target at start"),
+        ([1, 3, 5, 7, 9], 5, 2, "Target in middle"),
+        ([1, 3, 5, 7, 9], 2, -1, "Target between values"),
+        ([2, 5], 5, 1, "Two elements - found"),
+        ([2, 5], 3, -1, "Two elements - not found"),
+        ([-10, -5, 0, 5, 10], -10, 0, "Negative at start"),
+        ([-10, -5, 0, 5, 10], 10, 4, "Positive at end"),
+        ([-10, -5, 0, 5, 10], 0, 2, "Zero in middle"),
+        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1, 0, "Large array - first"),
+        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10, 9, "Large array - last"),
+        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5, 4, "Large array - middle"),
     ]
     
     solution = Solution()
     
     print("=" * 70)
-    print("LeetCode 704: Binary Search - Test Results")
+    print("LeetCode 704: Binary Search - Comprehensive Test Results")
     print("=" * 70)
     
-    for i, (nums, target, expected) in enumerate(test_cases, 1):
+    passed = 0
+    failed = 0
+    
+    for i, (nums, target, expected, desc) in enumerate(test_cases, 1):
         result = solution.search(nums, target)
-        status = "PASS" if result == expected else "FAIL"
+        status = "✓ PASS" if result == expected else "✗ FAIL"
+        
+        if result == expected:
+            passed += 1
+        else:
+            failed += 1
+        
         print(f"\nTest {i}: {status}")
+        print(f"  Desc:     {desc}")
         print(f"  Array:    {nums}")
         print(f"  Target:   {target}")
         print(f"  Expected: {expected}, Got: {result}")
     
     print("\n" + "=" * 70)
-    print("SUMMARY: Binary Search Approach")
-    print("Time:  O(log n) | Space: O(1)")
+    print(f"SUMMARY: {passed} passed, {failed} failed out of {len(test_cases)} tests")
+    print("Binary Search Approach: Time O(log n) | Space O(1)")
     print("=" * 70)
