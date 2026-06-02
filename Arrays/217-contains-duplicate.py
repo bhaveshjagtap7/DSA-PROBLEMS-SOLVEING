@@ -120,6 +120,88 @@ def containsDuplicate_set_comparison(nums):
 
 
 # ============================================================================
+# DRY RUN EXAMPLES
+# ============================================================================
+"""
+DRY RUN 1: HashSet Approach for [1, 2, 3, 1]
+
+Array: [1, 2, 3, 1]
+Goal: Find if any duplicate exists
+
+Initial: seen = {}
+
+Iteration 1: num = 1
+  Is 1 in seen? No
+  Add 1 to seen
+  seen = {1}
+
+Iteration 2: num = 2
+  Is 2 in seen? No
+  Add 2 to seen
+  seen = {1, 2}
+
+Iteration 3: num = 3
+  Is 3 in seen? No
+  Add 3 to seen
+  seen = {1, 2, 3}
+
+Iteration 4: num = 1
+  Is 1 in seen? YES! → Duplicate found
+  Return True ✓
+
+---
+
+DRY RUN 2: HashSet Approach for [1, 2, 3, 4]
+
+Array: [1, 2, 3, 4]
+Goal: Find if any duplicate exists
+
+Initial: seen = {}
+
+Iteration 1: num = 1
+  Is 1 in seen? No
+  Add 1 to seen
+  seen = {1}
+
+Iteration 2: num = 2
+  Is 2 in seen? No
+  Add 2 to seen
+  seen = {1, 2}
+
+Iteration 3: num = 3
+  Is 3 in seen? No
+  Add 3 to seen
+  seen = {1, 2, 3}
+
+Iteration 4: num = 4
+  Is 4 in seen? No
+  Add 4 to seen
+  seen = {1, 2, 3, 4}
+
+Loop ends, no duplicate found
+Return False ✓
+
+---
+
+DRY RUN 3: HashSet Approach for [5, 5]
+
+Array: [5, 5]
+Goal: Find if any duplicate exists
+
+Initial: seen = {}
+
+Iteration 1: num = 5
+  Is 5 in seen? No
+  Add 5 to seen
+  seen = {5}
+
+Iteration 2: num = 5
+  Is 5 in seen? YES! → Duplicate found
+  Return True ✓
+"""
+
+
+# ============================================================================
 # TEST CASES
 # ============================================================================
 

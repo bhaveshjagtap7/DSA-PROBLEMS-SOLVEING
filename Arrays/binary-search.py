@@ -160,17 +160,112 @@ Always use Binary Search for sorted arrays to achieve O(log n) efficiency.
 
 
 # ============================================================================
+# DRY RUN EXAMPLES
+# ============================================================================
+"""
+DRY RUN 1: Binary Search for target = 7 in [1, 3, 5, 7, 9, 11, 13]
+
+Array: [1, 3, 5, 7, 9, 11, 13]
+        0  1  2  3  4   5   6  (indices)
+Target: 7
+
+Iteration 1:
+  left = 0, right = 6
+  mid = (0 + 6) // 2 = 3
+  nums[3] = 7
+  7 == 7? YES! Return 3 ✓
+
+---
+
+DRY RUN 2: Binary Search for target = 11 in [1, 3, 5, 7, 9, 11, 13]
+
+Array: [1, 3, 5, 7, 9, 11, 13]
+        0  1  2  3  4   5   6
+Target: 11
+
+Iteration 1:
+  left = 0, right = 6
+  mid = (0 + 6) // 2 = 3
+  nums[3] = 7
+  7 < 11? YES → Search right half
+  left = mid + 1 = 4
+
+Iteration 2:
+  left = 4, right = 6
+  mid = (4 + 6) // 2 = 5
+  nums[5] = 11
+  11 == 11? YES! Return 5 ✓
+
+---
+
+DRY RUN 3: Binary Search for target = 2 in [1, 3, 5, 7, 9]
+
+Array: [1, 3, 5, 7, 9]
+        0  1  2  3  4
+Target: 2 (NOT in array)
+
+Iteration 1:
+  left = 0, right = 4
+  mid = (0 + 4) // 2 = 2
+  nums[2] = 5
+  5 > 2? YES → Search left half
+  right = mid - 1 = 1
+
+Iteration 2:
+  left = 0, right = 1
+  mid = (0 + 1) // 2 = 0
+  nums[0] = 1
+  1 < 2? YES → Search right half
+  left = mid + 1 = 1
+
+Iteration 3:
+  left = 1, right = 1
+  mid = (1 + 1) // 2 = 1
+  nums[1] = 3
+  3 > 2? YES → Search left half
+  right = mid - 1 = 0
+
+Iteration 4:
+  left = 1, right = 0
+  left > right? YES → Exit loop
+  Return -1 (not found) ✓
+
+---
+
+DRY RUN 4: Binary Search for target = 1 in [1, 3, 5, 7, 9]
+
+Array: [1, 3, 5, 7, 9]
+        0  1  2  3  4
+Target: 1 (first element)
+
+Iteration 1:
+  left = 0, right = 4
+  mid = (0 + 4) // 2 = 2
+  nums[2] = 5
+  5 > 1? YES → Search left half
+  right = mid - 1 = 1
+
+Iteration 2:
+  left = 0, right = 1
+  mid = (0 + 1) // 2 = 0
+  nums[0] = 1
+  1 == 1? YES! Return 0 ✓
+"""
+
+
+# ============================================================================
 # TEST CASES AND EXAMPLES
 # ============================================================================
 if __name__ == "__main__":
     test_cases = [
-        ([-1, 0, 3, 1, 4, 5, 2, 6], 0, 1),  # Target at index 1
+        ([-1, 0, 3, 5, 9, 12], 9, 4),       # Target in right half
         ([5], 5, 0),                         # Single element match
-        ([-1, 0, 3, 1, 4, 5, 2, 6], 13, -1),# Target not found
+        ([-1, 0, 3, 5, 9, 12], 2, -1),      # Target not found
         ([1, 3, 5, 7, 9], 9, 4),             # Target at end
         ([1, 3, 5, 7, 9], 1, 0),             # Target at start
         ([1, 3, 5, 7, 9], 5, 2),             # Target in middle
         ([1, 3, 5, 7, 9], 2, -1),            # Not in array
+        ([2, 5], 5, 1),                      # Two elements
     ]
     
     solution = Solution()
