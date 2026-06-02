@@ -109,6 +109,43 @@ def search_binary(nums, target):
     
     Returns:
         Index of target if found, -1 otherwise
+    
+    Interview Notes:
+    ----------------
+    KEY INSIGHT: Sorted array → Think Binary Search!
+                 Each comparison eliminates half the search space.
+    
+    CRITICAL REQUIREMENTS:
+    1. Array MUST be sorted (ascending or descending)
+    2. Must achieve O(log n) time complexity
+    
+    APPROACH PROGRESSION (What to say in interview):
+    1. Brute Force: Linear search → O(n)
+    2. Binary Search: Divide and conquer → O(log n) ✓
+    
+    COMMON MISTAKES TO AVOID:
+    ✗ mid = (left + right) / 2  ← Can overflow in some languages!
+    ✓ mid = left + (right - left) // 2  ← Safer
+    ✓ mid = (left + right) // 2  ← OK in Python (no int overflow)
+    
+    ✗ while left < right:  ← Might miss elements
+    ✓ while left <= right:  ← Correct condition
+    
+    ✗ Forgetting to update left/right pointers
+    ✓ left = mid + 1 and right = mid - 1
+    
+    FOLLOW-UP QUESTIONS:
+    Q: What if array has duplicates?
+       A: Return any valid index, or modify to find first/last occurrence
+    
+    Q: What if we want to find insertion position?
+       A: Return left pointer when not found (see Insert Position problem)
+    
+    Q: Recursive vs Iterative?
+       A: Iterative is better (no recursion stack space)
+    
+    Q: What about rotated sorted array?
+       A: Modified binary search (different problem)
     """
     # Initialize two pointers
     left = 0
@@ -116,7 +153,7 @@ def search_binary(nums, target):
     
     # Continue while search space is valid
     while left <= right:
-        # Calculate middle index
+        # Calculate middle index (safe from overflow)
         mid = (left + right) // 2
         
         # Found target
@@ -133,6 +170,102 @@ def search_binary(nums, target):
     
     # Target not found
     return -1
+
+
+# ============================================================================
+# INTERVIEW KEY OBSERVATIONS
+# ============================================================================
+"""
+🎯 KEY OBSERVATIONS FOR INTERVIEWS:
+
+1. WHY BINARY SEARCH IS POWERFUL
+   For n = 1,000,000 elements:
+   - Linear Search: ~500,000 comparisons (average)
+   - Binary Search: ~20 comparisons (log₂(1,000,000))
+   - That's 25,000x FASTER!
+
+2. THE LOGARITHMIC MAGIC
+   Each iteration cuts problem size in HALF:
+   n → n/2 → n/4 → n/8 → ... → 1
+   
+   Number of steps = log₂(n)
+   
+   Examples:
+   - 10 elements → 4 steps
+   - 100 elements → 7 steps
+   - 1,000 elements → 10 steps
+   - 1,000,000 elements → 20 steps
+   - 1,000,000,000 elements → 30 steps (!!)
+
+3. SEARCH SPACE VISUALIZATION
+   [1, 3, 5, 7, 9, 11, 13]  target = 11
+    L           M        R   
+   
+   Step 1: mid=7, 7<11 → search right
+           [9, 11, 13]
+            L   M   R
+   
+   Step 2: mid=11, 11==11 → FOUND!
+
+4. PREREQUISITE: WHY SORTED?
+   - Sorted array has ORDER property
+   - If nums[mid] < target, ALL elements left of mid are < target
+   - If nums[mid] > target, ALL elements right of mid are > target
+   - This guarantees we can eliminate half safely
+   
+   Unsorted → Can't make this guarantee → Must check all O(n)
+
+5. LOOP INVARIANT
+   Property that's always true:
+   "If target exists, it's in range [left, right]"
+   
+   - Initially: [0, n-1] contains all elements ✓
+   - After each step: range shrinks but property holds ✓
+   - Exit: left > right means target not in any range
+
+6. BOUNDARY CONDITIONS
+   Critical to get right:
+   - while left <= right (not just <)
+   - left = mid + 1 (not mid)
+   - right = mid - 1 (not mid)
+   
+   Getting these wrong → infinite loops or missed elements!
+
+7. INTEGER OVERFLOW (Language Dependent)
+   In Java/C++:
+   ✗ mid = (left + right) / 2  ← Can overflow if left+right > INT_MAX
+   ✓ mid = left + (right - left) / 2  ← Safe
+   
+   In Python:
+   ✓ mid = (left + right) // 2  ← Safe (no int overflow in Python)
+
+8. RECURSIVE VS ITERATIVE
+   Iterative (shown above):
+   - Space: O(1)
+   - Faster (no function call overhead)
+   - Preferred in interviews ✓
+   
+   Recursive:
+   - Space: O(log n) call stack
+   - More elegant but less efficient
+   - OK to mention but implement iterative
+
+9. WHAT INTERVIEWERS WANT TO HEAR
+   ✓ "Array is sorted, so binary search is appropriate"
+   ✓ "This achieves O(log n) time complexity"
+   ✓ "I'll use two pointers to track search space"
+   ✓ "Each iteration eliminates half the elements"
+   ✓ "Critical to handle boundary conditions correctly"
+
+10. RELATED PROBLEMS & PATTERNS
+    - Search Insert Position (LeetCode 35)
+    - First Bad Version (LeetCode 278)
+    - Search in Rotated Sorted Array (LeetCode 33)
+    - Find Minimum in Rotated Sorted Array (LeetCode 153)
+    - Search a 2D Matrix (LeetCode 74)
+    
+    Pattern: "Sorted" or "monotonic" → Consider Binary Search!
+"""
 
 
 class Solution(object):

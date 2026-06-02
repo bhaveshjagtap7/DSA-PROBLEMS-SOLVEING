@@ -117,6 +117,36 @@ class Solution(object):
         
         Returns:
             List of two indices [i, j] where nums[i] + nums[j] = target
+        
+        Interview Notes:
+        ----------------
+        KEY INSIGHT: Instead of asking "Does nums[j] exist where nums[i] + nums[j] = target?",
+                     ask "Have I already seen (target - nums[i])?"
+        
+        This transforms O(n²) nested loops into O(n) single pass with hash map.
+        
+        APPROACH PROGRESSION (What to say in interview):
+        1. Brute Force: Try all pairs → O(n²) time, O(1) space
+        2. Optimized: Use hash map → O(n) time, O(n) space ✓
+        
+        COMMON MISTAKES TO AVOID:
+        - Using same element twice (use i and j, not two pointers on sorted)
+        - Returning values instead of indices
+        - Not considering negative numbers
+        - Forgetting there's exactly one solution (no need to check all)
+        
+        FOLLOW-UP QUESTIONS TO EXPECT:
+        Q: What if array is sorted?
+          A: Could use two pointers, but hash map is still O(n) and simpler
+        
+        Q: What if we need all pairs instead of one?
+          A: Continue iterating instead of early return
+        
+        Q: What about space optimization?
+          A: O(n) space is acceptable, brute force O(n²) time is too slow
+        
+        Q: What if we can't use extra space?
+          A: Only option is O(n²) brute force
         """
         # Hash map to store {number: index}
         seen = {}
@@ -132,4 +162,60 @@ class Solution(object):
             
             # Store current number and its index
             seen[nums[i]] = i
+
+
+# ============================================================================
+# INTERVIEW KEY OBSERVATIONS
+# ============================================================================
+"""
+🎯 KEY OBSERVATIONS FOR INTERVIEWS:
+
+1. PATTERN RECOGNITION
+   - Classic "complement search" problem
+   - Hash map for O(1) lookup is the key insight
+   - Trade space for time: O(n) space saves O(n²) to O(n) time
+
+2. WHY HASH MAP WORKS
+   - For each element x, we need to find (target - x)
+   - Instead of scanning rest of array O(n), use hash map O(1)
+   - Store elements as we go, so we find pairs naturally
+
+3. WHY NOT TWO POINTERS?
+   - Two pointers require SORTED array
+   - Sorting loses original indices
+   - Problem asks for ORIGINAL indices
+   - Sorting is O(n log n), worse than hash map O(n)
+
+4. COMPLEXITY TRADE-OFF
+   Time    Space   Approach
+   ────────────────────────────
+   O(n²)   O(1)    Brute force (too slow) ✗
+   O(n)    O(n)    Hash map (optimal) ✓
+   
+5. EDGE CASES HANDLED
+   ✓ Negative numbers (hash map works with any integer)
+   ✓ Duplicates with different indices (use i and seen[remaining])
+   ✓ Target is zero (e.g., -3 + 3 = 0)
+   ✓ Minimum size array [x, y]
+
+6. INTERVIEW TALKING POINTS
+   - "I'll start with brute force O(n²) to show understanding"
+   - "Can optimize using hash map to cache seen numbers"
+   - "This is space-time tradeoff worth making"
+   - "Hash map lookup is O(1) average case"
+   - "Single pass algorithm, very efficient"
+
+7. WHAT MAKES THIS PROBLEM "EASY"?
+   - Clear problem statement
+   - Guaranteed exactly one solution
+   - Standard hash map pattern
+   - No complex data structures
+   - But still requires optimization thinking!
+
+8. RELATED PATTERNS
+   - 3Sum (extension of this)
+   - 4Sum (further extension)
+   - Two Sum II (sorted array variant)
+   - Complement search pattern
+"""
             
