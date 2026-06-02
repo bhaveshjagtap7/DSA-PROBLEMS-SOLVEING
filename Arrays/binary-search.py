@@ -125,3 +125,34 @@ class Solution(object):
     def search(self, nums, target):
         """Search for target in sorted array."""
         return search_binary(nums, target)
+
+
+# ============================================================================
+# COMPLEXITY ANALYSIS
+# ============================================================================
+'''
+TIME COMPLEXITY COMPARISON:
+
+Approach              Best    Average   Worst     Notes
+                    ─────────────────────────────────────
+Linear Search        O(1)    O(n/2)    O(n)      Simple, slow
+Binary Search        O(1)    O(log n)  O(log n)  Fast, sorted only
+
+SPACE COMPLEXITY:
+- Brute Force:    O(1) - Only variable storage
+- Binary Search:  O(1) - Only two pointers
+
+WHY BINARY SEARCH IS SUPERIOR:
+- For array of 1,000,000 elements:
+  - Linear Search:  ~500,000 iterations in average case
+  - Binary Search:  ~20 iterations (log2(1,000,000) ~= 20)
+  - Binary is 25,000x FASTER!
+
+- For array of 1 billion elements:
+  - Linear Search:  ~500 million iterations
+  - Binary Search:  ~30 iterations
+  - Binary is 16.7 million x FASTER!
+
+RECOMMENDATION:
+Always use Binary Search for sorted arrays to achieve O(log n) efficiency.
+'''
