@@ -59,20 +59,32 @@ Strategy: Count occurrences of each element using nested loops.
 For each element, count how many times it appears in the array.
 If count > n/2, return that element.
 
-Time Complexity: O(n²)
-Space Complexity: O(1)
+Time Complexity: O(n²) - Nested loops
+Space Complexity: O(1) - No extra space used
 """
 
 def majorityElement_bruteforce(nums):
-    """Brute force approach with nested loops."""
-    n = len(nums)
-    majority_count = n // 2
+    """
+    Brute force approach with nested loops.
     
-    for i in range(n):
-        count = 0
-        for j in range(n):
-            if nums[j] == nums[i]:
-                count += 1
+    Args:
+        nums: List of integers
+    
+    Returns:
+        The majority element (appears more than n/2 times)
+    """
+    array_length = len(nums)
+    majority_threshold = array_length // 2
+    
+    # Check each element
+    for current_element in nums:
+        occurrence_count = 0
         
-        if count > majority_count:
-            return nums[i]
+        # Count how many times current element appears
+        for element in nums:
+            if element == current_element:
+                occurrence_count += 1
+        
+        # If count exceeds threshold, we found majority element
+        if occurrence_count > majority_threshold:
+            return current_element
