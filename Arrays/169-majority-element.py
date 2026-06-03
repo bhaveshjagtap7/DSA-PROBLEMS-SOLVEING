@@ -88,3 +88,40 @@ def majorityElement_bruteforce(nums):
         # If count exceeds threshold, we found majority element
         if occurrence_count > majority_threshold:
             return current_element
+
+
+
+# ============================================================================
+# APPROACH 2: HASH MAP (Better Approach)
+# ============================================================================
+"""
+Strategy: Use hash map to count frequency of each element in single pass.
+Store counts in dictionary, then find element with count > n/2.
+
+Time Complexity: O(n) - Single pass through array
+Space Complexity: O(n) - Hash map stores up to n unique elements
+"""
+
+def majorityElement_hashmap(nums):
+    """
+    Hash map approach for counting element frequencies.
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        The majority element (appears more than n/2 times)
+    """
+    array_length = len(nums)
+    majority_threshold = array_length // 2
+    
+    # Dictionary to store element frequencies
+    frequency_map = {}
+    
+    # Count frequency of each element
+    for element in nums:
+        frequency_map[element] = frequency_map.get(element, 0) + 1
+        
+        # Early exit: if we found majority element, return immediately
+        if frequency_map[element] > majority_threshold:
+            return element
