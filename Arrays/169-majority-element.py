@@ -48,3 +48,31 @@ Input: nums = [10, 9, 9, 9, 10]
 Output: 9
 Explanation: 9 appears 3 times, which is more than ⌊5/2⌋ = 2
 """
+
+
+
+# ============================================================================
+# APPROACH 1: BRUTE FORCE
+# ============================================================================
+"""
+Strategy: Count occurrences of each element using nested loops.
+For each element, count how many times it appears in the array.
+If count > n/2, return that element.
+
+Time Complexity: O(n²)
+Space Complexity: O(1)
+"""
+
+def majorityElement_bruteforce(nums):
+    """Brute force approach with nested loops."""
+    n = len(nums)
+    majority_count = n // 2
+    
+    for i in range(n):
+        count = 0
+        for j in range(n):
+            if nums[j] == nums[i]:
+                count += 1
+        
+        if count > majority_count:
+            return nums[i]
