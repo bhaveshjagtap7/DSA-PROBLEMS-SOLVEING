@@ -157,3 +157,79 @@ For n = 1,000,000 elements:
 
 RECOMMENDATION: Use Boyer-Moore for optimal solution!
 """
+
+
+
+# ============================================================================
+# APPROACH 3: BOYER-MOORE VOTING ALGORITHM (Optimal)
+# ============================================================================
+"""
+Strategy: Voting algorithm based on majority element cancellation.
+
+Key Insight:
+- If we cancel out each occurrence of majority element with different element,
+  the majority element will still remain at the end.
+- Majority element appears MORE than n/2 times, so it survives cancellation.
+
+Algorithm:
+1. Initialize candidate = None, count = 0
+2. For each element:
+   - If count == 0, set current element as new candidate
+   - If element == candidate, increment count
+   - If element != candidate, decrement count
+3. Return candidate (guaranteed to be majority element)
+
+Why it works:
+- When count reaches 0, we've cancelled equal numbers of different elements
+- Majority element appears more than all others combined
+- So majority element will always be the final candidate
+
+Time Complexity: O(n) - Single pass through array
+Space Complexity: O(1) - Only two variables used
+"""
+
+def majorityElement_boyer_moore(nums):
+    """
+    Boyer-Moore Voting Algorithm (Optimal Solution).
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        The majority element (appears more than n/2 times)
+    """
+    # Initialize candidate and vote count
+    candidate = None
+    vote_count = 0
+    
+    # Find candidate using voting algorithm
+    for current_element in nums:
+        # If count is 0, elect new candidate
+        if vote_count == 0:
+            candidate = current_element
+            vote_count = 1
+        # If current element matches candidate, increase vote
+        elif current_element == candidate:
+            vote_count += 1
+        # If current element differs, decrease vote (cancellation)
+        else:
+            vote_count -= 1
+    
+    # Candidate is guaranteed to be majority element (per problem constraints)
+    return candidate
+
+
+class Solution(object):
+    """LeetCode 169: Majority Element Solution"""
+    
+    def majorityElement(self, nums):
+        """
+        Find the majority element using Boyer-Moore Voting Algorithm.
+        
+        Args:
+            nums: List of integers
+        
+        Returns:
+            The majority element
+        """
+        return majorityElement_boyer_moore(nums)
