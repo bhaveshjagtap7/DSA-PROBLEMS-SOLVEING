@@ -320,3 +320,52 @@ survives because it appears MORE than all other elements COMBINED.
 Even if every occurrence of majority element is paired with a different
 element for cancellation, there will still be majority elements remaining.
 """
+
+
+
+# ============================================================================
+# EDGE CASES
+# ============================================================================
+"""
+Edge Cases to Consider:
+
+1. Single element array [x]
+   → x is majority element (appears 1 time > 1/2 = 0.5)
+
+2. Two elements, same [x, x]
+   → x is majority element
+
+3. Two elements, different [x, y]
+   → One must be majority (problem guarantees majority exists)
+
+4. All elements are same [x, x, x, x, ...]
+   → x is majority element
+
+5. Majority element at start [x, x, x, y, z]
+   → Algorithm handles correctly
+
+6. Majority element at end [y, z, x, x, x]
+   → Algorithm handles correctly
+
+7. Majority element scattered [x, y, x, z, x]
+   → Algorithm handles correctly
+
+8. Negative numbers [-1, -1, 2]
+   → Works with any integers
+
+9. Large numbers within constraints
+   → Algorithm is value-agnostic
+
+10. Array length at boundary (1 or 50,000)
+    → Algorithm scales linearly
+
+IMPORTANT NOTE:
+The problem GUARANTEES that majority element always exists.
+We don't need to verify if candidate is actually majority element.
+The Boyer-Moore algorithm will always return correct answer when majority exists.
+
+If verification was needed (not for this problem):
+- Do second pass to count candidate occurrences
+- Check if count > n/2
+- This would still be O(n) time
+"""
