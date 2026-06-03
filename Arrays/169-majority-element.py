@@ -369,3 +369,56 @@ If verification was needed (not for this problem):
 - Check if count > n/2
 - This would still be O(n) time
 """
+
+
+
+# ============================================================================
+# TEST CASES
+# ============================================================================
+
+if __name__ == "__main__":
+    # Test cases with various scenarios
+    test_cases = [
+        # (input, expected, description)
+        ([3, 2, 3], 3, "Basic case - majority at start and end"),
+        ([2, 2, 1, 1, 1, 2, 2], 2, "Majority scattered throughout"),
+        ([1], 1, "Single element"),
+        ([6, 5, 5], 5, "Majority at end"),
+        ([10, 9, 9, 9, 10], 9, "Majority in middle"),
+        ([1, 1, 1, 1], 1, "All elements same"),
+        ([-1, -1, 2], -1, "Negative numbers"),
+        ([8, 8, 7, 7, 7], 7, "Close competition"),
+        ([1, 2, 3, 4, 5, 5, 5, 5, 5], 5, "Majority at end of large array"),
+        ([3, 3, 4], 3, "Two elements vs one"),
+    ]
+    
+    print("=" * 80)
+    print("LeetCode 169: Majority Element - All Approaches Test")
+    print("=" * 80)
+    
+    for i, (nums, expected, description) in enumerate(test_cases, 1):
+        # Test all three approaches
+        result_bf = majorityElement_bruteforce(nums[:])
+        result_hm = majorityElement_hashmap(nums[:])
+        result_bm = majorityElement_boyer_moore(nums[:])
+        
+        # Check if all approaches give correct answer
+        all_correct = (result_bf == expected and 
+                       result_hm == expected and 
+                       result_bm == expected)
+        
+        status = "✓ PASS" if all_correct else "✗ FAIL"
+        
+        print(f"\nTest {i}: {status}")
+        print(f"  Description: {description}")
+        print(f"  Input:       {nums}")
+        print(f"  Expected:    {expected}")
+        print(f"  Results:     BruteForce={result_bf} | HashMap={result_hm} | Boyer-Moore={result_bm}")
+    
+    print("\n" + "=" * 80)
+    print(f"SUMMARY: All {len(test_cases)} test cases completed")
+    print("RECOMMENDATION: Use Boyer-Moore Voting Algorithm")
+    print("  ✓ Time:  O(n)")
+    print("  ✓ Space: O(1)")
+    print("  ✓ Elegant and efficient!")
+    print("=" * 80)
