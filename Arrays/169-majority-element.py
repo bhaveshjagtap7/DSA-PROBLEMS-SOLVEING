@@ -233,3 +233,90 @@ class Solution(object):
             The majority element
         """
         return majorityElement_boyer_moore(nums)
+
+
+
+# ============================================================================
+# DRY RUN: BOYER-MOORE VOTING ALGORITHM
+# ============================================================================
+"""
+DRY RUN 1: nums = [2, 2, 1, 1, 1, 2, 2]
+
+Initial state:
+candidate = None, vote_count = 0
+
+Iteration 1: element = 2
+  vote_count == 0? YES → Elect new candidate
+  candidate = 2, vote_count = 1
+
+Iteration 2: element = 2
+  element == candidate? YES → Increase vote
+  vote_count = 2
+
+Iteration 3: element = 1
+  element == candidate? NO → Decrease vote (cancellation)
+  vote_count = 1
+
+Iteration 4: element = 1
+  element == candidate? NO → Decrease vote
+  vote_count = 0
+
+Iteration 5: element = 1
+  vote_count == 0? YES → Elect new candidate
+  candidate = 1, vote_count = 1
+
+Iteration 6: element = 2
+  element == candidate? NO → Decrease vote
+  vote_count = 0
+
+Iteration 7: element = 2
+  vote_count == 0? YES → Elect new candidate
+  candidate = 2, vote_count = 1
+
+Final Answer: candidate = 2 ✓
+(2 appears 4 times, which is > 7/2 = 3.5)
+
+---
+
+DRY RUN 2: nums = [3, 2, 3]
+
+Initial state:
+candidate = None, vote_count = 0
+
+Iteration 1: element = 3
+  vote_count == 0? YES → Elect new candidate
+  candidate = 3, vote_count = 1
+
+Iteration 2: element = 2
+  element == candidate? NO → Decrease vote
+  vote_count = 0
+
+Iteration 3: element = 3
+  vote_count == 0? YES → Elect new candidate
+  candidate = 3, vote_count = 1
+
+Final Answer: candidate = 3 ✓
+(3 appears 2 times, which is > 3/2 = 1.5)
+
+---
+
+DRY RUN 3: nums = [1]
+
+Initial state:
+candidate = None, vote_count = 0
+
+Iteration 1: element = 1
+  vote_count == 0? YES → Elect new candidate
+  candidate = 1, vote_count = 1
+
+Final Answer: candidate = 1 ✓
+(1 appears 1 time, which is > 1/2 = 0.5)
+
+---
+
+KEY OBSERVATION:
+The voting/cancellation mechanism ensures that the majority element
+survives because it appears MORE than all other elements COMBINED.
+Even if every occurrence of majority element is paired with a different
+element for cancellation, there will still be majority elements remaining.
+"""
