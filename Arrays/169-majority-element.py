@@ -125,3 +125,35 @@ def majorityElement_hashmap(nums):
         # Early exit: if we found majority element, return immediately
         if frequency_map[element] > majority_threshold:
             return element
+
+
+
+# ============================================================================
+# COMPLEXITY ANALYSIS
+# ============================================================================
+"""
+APPROACH COMPARISON:
+
+Approach              Time         Space        Notes
+─────────────────────────────────────────────────────────────────
+Brute Force          O(n²)        O(1)         Simple, too slow
+Hash Map             O(n)         O(n)         Good, but uses space
+Sorting              O(n log n)   O(1)*        *Modifies array
+Boyer-Moore          O(n)         O(1)         Optimal! ✓
+
+WHY BOYER-MOORE IS OPTIMAL:
+- Linear time O(n): Single pass through array
+- Constant space O(1): Only two variables (candidate + count)
+- No sorting needed: Works on unsorted array
+- No extra memory: No hash map or additional data structures
+- Elegant algorithm: Based on voting/cancellation concept
+
+SCALABILITY:
+For n = 1,000,000 elements:
+- Brute Force:   ~500 billion operations (O(n²))
+- Hash Map:      ~1 million operations (O(n)) + hash map memory
+- Sorting:       ~20 million operations (O(n log n))
+- Boyer-Moore:   ~1 million operations (O(n)) + minimal memory ✓
+
+RECOMMENDATION: Use Boyer-Moore for optimal solution!
+"""
