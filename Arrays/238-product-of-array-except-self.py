@@ -221,3 +221,54 @@ class Solution(object):
             List where result[i] = product of all elements except nums[i]
         """
         return productExceptSelf_optimized(nums)
+
+
+
+# ============================================================================
+# COMPLEXITY ANALYSIS
+# ============================================================================
+"""
+APPROACH COMPARISON:
+
+Approach              Time         Space        Notes
+────────────────────────────────────────────────────────────────────
+Brute Force          O(n²)        O(1)         Simple, too slow
+Division Trick       O(n)         O(1)         Not allowed (uses division)
+Prefix/Suffix Arrays O(n)         O(n)         Good, uses extra space
+Space-Optimized      O(n)         O(1)         Optimal! ✓
+
+WHY WE CAN'T USE DIVISION:
+The obvious solution would be:
+1. Calculate total product of all elements
+2. For each index i, result[i] = total_product / nums[i]
+
+But this has problems:
+- Problem explicitly says "without using division operator"
+- Doesn't work if any element is 0
+- Integer division can lose precision
+
+WHY SPACE-OPTIMIZED IS BEST:
+- Linear time O(n): Two passes through array
+- Constant space O(1): Only output array (which doesn't count)
+- No division needed: Uses multiplication only
+- Handles zeros correctly: No special cases needed
+- Production-ready: Clean, efficient, robust
+
+SCALABILITY:
+For n = 100,000 elements:
+- Brute Force:   ~10 billion operations (O(n²)) - Too slow!
+- Optimized:     ~200,000 operations (2n) - Fast! ✓
+
+TIME COMPLEXITY BREAKDOWN (Optimized):
+- Pass 1 (prefix):  O(n)
+- Pass 2 (suffix):  O(n)
+- Total:            O(n)
+
+SPACE COMPLEXITY BREAKDOWN (Optimized):
+- Result array:     O(n) - Required output, doesn't count
+- prefix_product:   O(1) - Single variable
+- suffix_product:   O(1) - Single variable
+- Total extra:      O(1) ✓
+
+RECOMMENDATION: Use space-optimized approach for production!
+"""
