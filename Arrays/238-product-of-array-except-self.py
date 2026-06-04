@@ -93,3 +93,44 @@ def productExceptSelf_bruteforce(nums):
         result_array.append(current_product)
     
     return result_array
+
+
+
+# ============================================================================
+# APPROACH 2: PREFIX AND SUFFIX PRODUCTS (Optimized)
+# ============================================================================
+"""
+Strategy: Use prefix and suffix product arrays.
+
+Key Insight:
+For each position i, the result is:
+  result[i] = (product of all elements before i) × (product of all elements after i)
+  result[i] = prefix[i-1] × suffix[i+1]
+
+We can precompute:
+- prefix[i] = product of nums[0] to nums[i]
+- suffix[i] = product of nums[i] to nums[n-1]
+
+Time Complexity: O(n) - Three separate passes
+Space Complexity: O(n) - Two additional arrays for prefix and suffix
+"""
+
+def productExceptSelf_prefix_suffix(nums):
+    """
+    Optimized approach using prefix and suffix product arrays.
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        List where result[i] = product of all elements except nums[i]
+    """
+    array_length = len(nums)
+    
+    # Step 1: Build prefix products array
+    # prefix[i] = product of all elements from index 0 to i
+    prefix_products = [1] * array_length
+    prefix_products[0] = nums[0]
+    
+    for i in range(1, array_length):
+        prefix_products[i] = prefix_products[i - 1] * nums[i]
