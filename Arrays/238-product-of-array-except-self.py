@@ -134,3 +134,12 @@ def productExceptSelf_prefix_suffix(nums):
     
     for i in range(1, array_length):
         prefix_products[i] = prefix_products[i - 1] * nums[i]
+
+    
+    # Step 2: Build suffix products array
+    # suffix[i] = product of all elements from index i to n-1
+    suffix_products = [1] * array_length
+    suffix_products[array_length - 1] = nums[array_length - 1]
+    
+    for i in range(array_length - 2, -1, -1):
+        suffix_products[i] = suffix_products[i + 1] * nums[i]
