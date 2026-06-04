@@ -179,7 +179,12 @@ Space Complexity: O(1) - Only output array (doesn't count)
 
 def productExceptSelf_optimized(nums):
     """
-    Space-optimized O(1) solution.
+    Space-optimized O(1) solution using two-pass technique.
+    
+    This is the optimal solution that meets all requirements:
+    - O(n) time complexity
+    - O(1) space complexity (output array doesn't count)
+    - No division operator used
     
     Args:
         nums: List of integers
@@ -190,20 +195,32 @@ def productExceptSelf_optimized(nums):
     array_length = len(nums)
     result_array = [1] * array_length
     
-    # Pass 1: Fill result with prefix products
-    # result[i] = product of all elements before index i
-    prefix_product = 1
-    for i in range(array_length):
-        result_array[i] = prefix_product
-        prefix_product *= nums[i]
+    # PASS 1: Build prefix products (left to right)
+    # At each position i, store product of all elements to the LEFT of i
+    # This gives us: result[i] = nums[0] * nums[1] * ... * nums[i-1]
+    running_prefix_product = 1
     
-    # Pass 2: Multiply by suffix products
-    # result[i] *= product of all elements after index i
-    suffix_product = 1
-    for i in range(array_length - 1, -1, -1):
-        result_array[i] *= suffix_product
-        suffix_product *= nums[i]
+    for current_index in range(array_length):
+        # Store product of all elements before current index
+        result_array[current_index] = running_prefix_product
+        
+        # Update running product to include current element for next iteration
+        running_prefix_product *= nums[current_index]
     
+    # PASS 2: Multiply by suffix products (right to left)
+    # At each position i, multiply by product of all elements to the RIGHT of i
+    # This gives us: result[i] *= nums[i+1] * nums[i+2] * ... * nums[n-1]
+    running_suffix_product = 1
+    
+    for current_index in range(array_length - 1, -1, -1):
+        # Multiply existing value (prefix) by suffix product
+        result_array[current_index] *= running_suffix_product
+        
+        # Update running product to include current element for next iteration
+        running_suffix_product *= nums[current_index]
+    
+    # Now result[i] = (product of all left elements) * (product of all right elements)
+    #               = product of all elements except nums[i]
     return result_array
 
 
