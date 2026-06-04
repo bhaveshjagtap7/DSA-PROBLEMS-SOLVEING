@@ -370,3 +370,104 @@ if __name__ == "__main__":
     print(f"SUMMARY: {passed} passed, {failed} failed out of {len(test_cases)} tests")
     print("Space-Optimized Solution: Time O(n) | Space O(1)")
     print("=" * 80)
+
+
+
+# ============================================================================
+# DRY RUN: SPACE-OPTIMIZED SOLUTION
+# ============================================================================
+"""
+DRY RUN: nums = [1, 2, 3, 4]
+
+Goal: result[i] = product of all elements except nums[i]
+Expected output: [24, 12, 8, 6]
+
+PASS 1: Build prefix products (left to right)
+────────────────────────────────────────────────
+Goal: result[i] = product of all elements BEFORE index i
+
+Initial state:
+  nums = [1, 2, 3, 4]
+  result = [1, 1, 1, 1]
+  prefix_product = 1
+
+i=0: result[0] = prefix_product = 1
+     prefix_product *= nums[0] = 1 * 1 = 1
+     result = [1, 1, 1, 1]
+
+i=1: result[1] = prefix_product = 1
+     prefix_product *= nums[1] = 1 * 2 = 2
+     result = [1, 1, 1, 1]
+
+i=2: result[2] = prefix_product = 2
+     prefix_product *= nums[2] = 2 * 3 = 6
+     result = [1, 1, 2, 1]
+
+i=3: result[3] = prefix_product = 6
+     prefix_product *= nums[3] = 6 * 4 = 24
+     result = [1, 1, 2, 6]
+
+After Pass 1: result = [1, 1, 2, 6]
+(Each position has product of all elements to its left)
+
+PASS 2: Multiply by suffix products (right to left)
+────────────────────────────────────────────────
+Goal: Multiply result[i] by product of all elements AFTER index i
+
+Initial state:
+  result = [1, 1, 2, 6]
+  suffix_product = 1
+
+i=3: result[3] *= suffix_product = 6 * 1 = 6
+     suffix_product *= nums[3] = 1 * 4 = 4
+     result = [1, 1, 2, 6]
+
+i=2: result[2] *= suffix_product = 2 * 4 = 8
+     suffix_product *= nums[2] = 4 * 3 = 12
+     result = [1, 1, 8, 6]
+
+i=1: result[1] *= suffix_product = 1 * 12 = 12
+     suffix_product *= nums[1] = 12 * 2 = 24
+     result = [1, 12, 8, 6]
+
+i=0: result[0] *= suffix_product = 1 * 24 = 24
+     suffix_product *= nums[0] = 24 * 1 = 24
+     result = [24, 12, 8, 6]
+
+Final Answer: [24, 12, 8, 6] ✓
+
+VERIFICATION:
+  result[0] = 24 = 2 * 3 * 4 ✓ (all except nums[0])
+  result[1] = 12 = 1 * 3 * 4 ✓ (all except nums[1])
+  result[2] = 8  = 1 * 2 * 4 ✓ (all except nums[2])
+  result[3] = 6  = 1 * 2 * 3 ✓ (all except nums[3])
+
+───────────────────────────────────────────────────────────
+
+DRY RUN 2: nums = [2, 3, 4]
+
+PASS 1: Prefix products (left to right)
+  i=0: result[0] = 1, prefix = 2
+  i=1: result[1] = 2, prefix = 6
+  i=2: result[2] = 6, prefix = 24
+  
+  After Pass 1: result = [1, 2, 6]
+
+PASS 2: Suffix products (right to left)
+  i=2: result[2] = 6 * 1 = 6, suffix = 4
+  i=1: result[1] = 2 * 4 = 8, suffix = 12
+  i=0: result[0] = 1 * 12 = 12, suffix = 24
+  
+  Final: result = [12, 8, 6]
+
+VERIFICATION:
+  result[0] = 12 = 3 * 4 ✓
+  result[1] = 8  = 2 * 4 ✓
+  result[2] = 6  = 2 * 3 ✓
+
+KEY OBSERVATION:
+The two-pass approach cleverly builds the final answer:
+- Pass 1 stores "product of everything on the left"
+- Pass 2 multiplies by "product of everything on the right"
+- Together they give "product of everything except current element"
+"""
