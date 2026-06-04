@@ -54,3 +54,30 @@ Explanation:
   answer[2] = 2 * 3 * 5 = 30
   answer[3] = 2 * 3 * 4 = 24
 """
+
+
+
+# ============================================================================
+# APPROACH 1: BRUTE FORCE
+# ============================================================================
+"""
+Strategy: For each position i, calculate product of all elements except i.
+Use nested loops to multiply all elements except current index.
+
+Time Complexity: O(n²) - For each element, iterate through array
+Space Complexity: O(1) - Only output array (doesn't count as extra space)
+"""
+
+def productExceptSelf_bruteforce(nums):
+    """Brute force approach with nested loops."""
+    n = len(nums)
+    result = []
+    
+    for i in range(n):
+        product = 1
+        for j in range(n):
+            if i != j:
+                product *= nums[j]
+        result.append(product)
+    
+    return result
