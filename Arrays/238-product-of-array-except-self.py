@@ -272,3 +272,101 @@ SPACE COMPLEXITY BREAKDOWN (Optimized):
 
 RECOMMENDATION: Use space-optimized approach for production!
 """
+
+
+
+# ============================================================================
+# EDGE CASES
+# ============================================================================
+"""
+Edge Cases to Consider:
+
+1. Array with zeros
+   - Single zero: [1, 2, 0, 4] → [0, 0, 8, 0]
+     Only the position with 0 gets non-zero product
+   
+   - Multiple zeros: [0, 0, 2] → [0, 0, 0]
+     All products become 0
+
+2. Array with negative numbers
+   - [-1, 2, -3, 4] → Product signs alternate correctly
+   - Algorithm handles negatives naturally
+
+3. Minimum size array
+   - [a, b] → [b, a]
+     Each element is product of the other
+
+4. All ones
+   - [1, 1, 1, 1] → [1, 1, 1, 1]
+     Identity case
+
+5. Array with 1 and other numbers
+   - [1, 2, 3] → [6, 3, 2]
+     Ones don't affect products
+
+6. Large numbers (within constraints)
+   - Problem guarantees product fits in 32-bit integer
+   - No overflow concerns
+
+7. Mix of positive, negative, and zero
+   - [2, -3, 0, 4] → Handles all signs correctly
+
+8. Boundary values
+   - nums[i] can be -30 to 30
+   - Array length can be 2 to 100,000
+
+IMPORTANT NOTES:
+- Algorithm handles ALL edge cases naturally
+- No special checks needed for zeros or negatives
+- Prefix/suffix multiplication works universally
+- Output array guaranteed to fit in 32-bit integers
+"""
+
+
+# ============================================================================
+# TEST CASES
+# ============================================================================
+
+if __name__ == "__main__":
+    test_cases = [
+        # (input, expected, description)
+        ([1, 2, 3, 4], [24, 12, 8, 6], "Basic case"),
+        ([-1, 1, 0, -3, 3], [0, 0, 9, 0, 0], "With zero in middle"),
+        ([2, 3], [3, 2], "Minimum size (2 elements)"),
+        ([1, 1, 1, 1], [1, 1, 1, 1], "All ones"),
+        ([2, 3, 4, 5], [60, 40, 30, 24], "All positive"),
+        ([-1, -2, -3], [-6, -3, -2], "All negative"),
+        ([0, 0], [0, 0], "All zeros"),
+        ([5, 0, 2, 0], [0, 0, 0, 0], "Multiple zeros"),
+        ([1, 0], [0, 1], "Zero at end"),
+        ([0, 1], [1, 0], "Zero at start"),
+        ([2, -3, 4, -5], [-60, 40, -30, 24], "Mixed signs"),
+    ]
+    
+    print("=" * 80)
+    print("LeetCode 238: Product of Array Except Self - Test Results")
+    print("=" * 80)
+    
+    passed = 0
+    failed = 0
+    
+    for i, (nums, expected, description) in enumerate(test_cases, 1):
+        # Test optimized solution
+        result = productExceptSelf_optimized(nums[:])
+        
+        status = "✓ PASS" if result == expected else "✗ FAIL"
+        if result == expected:
+            passed += 1
+        else:
+            failed += 1
+        
+        print(f"\nTest {i}: {status}")
+        print(f"  Description: {description}")
+        print(f"  Input:       {nums}")
+        print(f"  Expected:    {expected}")
+        print(f"  Got:         {result}")
+    
+    print("\n" + "=" * 80)
+    print(f"SUMMARY: {passed} passed, {failed} failed out of {len(test_cases)} tests")
+    print("Space-Optimized Solution: Time O(n) | Space O(1)")
+    print("=" * 80)
