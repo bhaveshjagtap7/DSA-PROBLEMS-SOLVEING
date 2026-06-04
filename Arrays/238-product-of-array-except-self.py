@@ -143,3 +143,81 @@ def productExceptSelf_prefix_suffix(nums):
     
     for i in range(array_length - 2, -1, -1):
         suffix_products[i] = suffix_products[i + 1] * nums[i]
+
+    
+    # Step 3: Build result array
+    # result[i] = prefix[i-1] × suffix[i+1]
+    result_array = [1] * array_length
+    
+    for i in range(array_length):
+        # Product of all elements before i
+        left_product = prefix_products[i - 1] if i > 0 else 1
+        
+        # Product of all elements after i
+        right_product = suffix_products[i + 1] if i < array_length - 1 else 1
+        
+        result_array[i] = left_product * right_product
+    
+    return result_array
+
+
+# ============================================================================
+# APPROACH 3: SPACE-OPTIMIZED O(1) SOLUTION
+# ============================================================================
+"""
+Strategy: Build result array by computing prefix and suffix on-the-fly.
+
+Instead of storing prefix and suffix arrays, we:
+1. First pass (left to right): Store prefix products in result array
+2. Second pass (right to left): Multiply by suffix products
+
+This achieves O(n) time with O(1) extra space!
+
+Time Complexity: O(n) - Two passes through array
+Space Complexity: O(1) - Only output array (doesn't count)
+"""
+
+def productExceptSelf_optimized(nums):
+    """
+    Space-optimized O(1) solution.
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        List where result[i] = product of all elements except nums[i]
+    """
+    array_length = len(nums)
+    result_array = [1] * array_length
+    
+    # Pass 1: Fill result with prefix products
+    # result[i] = product of all elements before index i
+    prefix_product = 1
+    for i in range(array_length):
+        result_array[i] = prefix_product
+        prefix_product *= nums[i]
+    
+    # Pass 2: Multiply by suffix products
+    # result[i] *= product of all elements after index i
+    suffix_product = 1
+    for i in range(array_length - 1, -1, -1):
+        result_array[i] *= suffix_product
+        suffix_product *= nums[i]
+    
+    return result_array
+
+
+class Solution(object):
+    """LeetCode 238: Product of Array Except Self"""
+    
+    def productExceptSelf(self, nums):
+        """
+        Return array where each element is product of all others.
+        
+        Args:
+            nums: List of integers
+        
+        Returns:
+            List where result[i] = product of all elements except nums[i]
+        """
+        return productExceptSelf_optimized(nums)
