@@ -69,15 +69,27 @@ Space Complexity: O(1) - Only output array (doesn't count as extra space)
 """
 
 def productExceptSelf_bruteforce(nums):
-    """Brute force approach with nested loops."""
-    n = len(nums)
-    result = []
+    """
+    Brute force approach with nested loops.
     
-    for i in range(n):
-        product = 1
-        for j in range(n):
-            if i != j:
-                product *= nums[j]
-        result.append(product)
+    Args:
+        nums: List of integers
     
-    return result
+    Returns:
+        List where result[i] = product of all elements except nums[i]
+    """
+    array_length = len(nums)
+    result_array = []
+    
+    # For each position in array
+    for current_index in range(array_length):
+        current_product = 1
+        
+        # Multiply all elements except the one at current_index
+        for multiply_index in range(array_length):
+            if multiply_index != current_index:
+                current_product *= nums[multiply_index]
+        
+        result_array.append(current_product)
+    
+    return result_array
