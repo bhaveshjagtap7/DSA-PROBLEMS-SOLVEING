@@ -56,3 +56,48 @@ Output: 4
 Explanation:
   Subarrays: [3, 4], [7], [7, 2, -3, 1], [1, 4, 2]
 """
+
+
+
+# ============================================================================
+# APPROACH 1: BRUTE FORCE
+# ============================================================================
+"""
+Strategy: Check every possible subarray by using nested loops.
+- Outer loop: Starting index i
+- Inner loop: Ending index j (j >= i)
+- Calculate sum from i to j
+- If sum equals k, increment count
+
+Time Complexity: O(n³) or O(n²) depending on implementation
+Space Complexity: O(1) - Only storing count
+"""
+
+def subarraySum_bruteforce(nums, k):
+    """
+    Brute force approach checking all subarrays.
+    
+    Args:
+        nums: List of integers
+        k: Target sum
+    
+    Returns:
+        Number of subarrays whose sum equals k
+    """
+    array_length = len(nums)
+    subarray_count = 0
+    
+    # Try all possible starting positions
+    for start_index in range(array_length):
+        current_sum = 0
+        
+        # Try all possible ending positions
+        for end_index in range(start_index, array_length):
+            # Add current element to running sum
+            current_sum += nums[end_index]
+            
+            # Check if we found a subarray with sum k
+            if current_sum == k:
+                subarray_count += 1
+    
+    return subarray_count
