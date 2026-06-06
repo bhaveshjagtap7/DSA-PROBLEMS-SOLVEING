@@ -392,3 +392,98 @@ For n = 20,000 (max constraint):
 
 RECOMMENDATION: Use hash map optimized solution!
 """
+
+
+
+# ============================================================================
+# EDGE CASES AND TEST CASES
+# ============================================================================
+"""
+Edge Cases to Consider:
+
+1. Array with zeros only
+   - [0, 0, 0], k = 0 → 6 subarrays
+   - Every subarray sums to 0
+
+2. Single element array
+   - [5], k = 5 → 1 subarray
+   - [5], k = 0 → 0 subarrays
+
+3. Array with negative numbers
+   - [-1, 2, -3, 4], k = 1 → Handles correctly
+   - Prefix sums can go up and down
+
+4. Array with all negative numbers
+   - [-1, -2, -3], k = -6 → 1 subarray
+   - Works with negative target
+
+5. Empty subarray handling
+   - Not allowed by problem (subarray must be non-empty)
+   - But prefix sum 0 is needed for subarrays starting at index 0
+
+6. Large k value
+   - Within constraints (-10^7 to 10^7)
+   - Works with any integer value
+
+7. Array length at boundaries
+   - n = 1, n = 20,000 (max constraint)
+   - Algorithm scales linearly
+
+8. Prefix sums equal to k
+   - Example: [1, 2, 3], k = 3
+   - prefix[2] = 6, prefix[0] = 3 → Need (6-3=3)
+   - prefix_sum - k = previous_prefix_sum
+
+9. Multiple prefix sums same value
+   - [0, 0, 0], k = 0 → Many duplicate prefix sums
+   - Hash map handles frequency counts
+
+10. Mixed positive and negative
+    - [1, -1, 1, -1, 1], k = 0 → Multiple cancellations
+    - Works with alternating signs
+"""
+
+
+if __name__ == "__main__":
+    test_cases = [
+        # (nums, k, expected, description)
+        ([1, 1, 1], 2, 2, "Basic case - consecutive ones"),
+        ([1, 2, 3], 3, 2, "Mixed numbers - target 3"),
+        ([1, -1, 1, 1], 1, 3, "With negatives - multiple solutions"),
+        ([0, 0, 0], 0, 6, "All zeros - many subarrays"),
+        ([5], 5, 1, "Single element - matches target"),
+        ([5], 3, 0, "Single element - doesn't match"),
+        ([-1, -2, -3], -6, 1, "All negative numbers"),
+        ([1, 2, 3, 4, 5], 9, 2, "Longer array - target 9"),
+        ([3, 4, 7, 2, -3, 1, 4, 2], 7, 4, "Complex example"),
+        ([1], 0, 0, "Single element with zero target"),
+        ([1, 2, 1, 2, 1], 3, 4, "Alternating pattern"),
+    ]
+    
+    print("=" * 80)
+    print("LeetCode 560: Subarray Sum Equals K - Test Results")
+    print("=" * 80)
+    
+    passed = 0
+    failed = 0
+    
+    for i, (nums, k, expected, description) in enumerate(test_cases, 1):
+        # Test optimized solution
+        result = subarraySum_optimized(nums[:])
+        
+        status = "✓ PASS" if result == expected else "✗ FAIL"
+        if result == expected:
+            passed += 1
+        else:
+            failed += 1
+        
+        print(f"\nTest {i}: {status}")
+        print(f"  Description: {description}")
+        print(f"  Input:       nums={nums}, k={k}")
+        print(f"  Expected:    {expected}")
+        print(f"  Got:         {result}")
+    
+    print("\n" + "=" * 80)
+    print(f"SUMMARY: {passed} passed, {failed} failed out of {len(test_cases)} tests")
+    print("Optimal Solution: Time O(n) | Space O(n)")
+    print("=" * 80)
