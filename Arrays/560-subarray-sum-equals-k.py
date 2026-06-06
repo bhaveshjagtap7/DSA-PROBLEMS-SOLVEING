@@ -266,3 +266,83 @@ def subarraySum_hashmap(nums, k):
             prefix_sum_frequency[running_prefix_sum] = 1
     
     return subarray_count
+
+
+
+# ============================================================================
+# FINAL OPTIMIZED SOLUTION
+# ============================================================================
+"""
+Optimal Solution: Single pass with hash map
+
+Key Components:
+1. Hash map to track prefix sum frequencies
+2. Single pass through array
+3. Mathematical insight: current_sum - target_sum = needed_sum
+
+Algorithm Steps:
+Initialize:
+  count = 0
+  prefix_sum = 0
+  sum_frequency = {0: 1}  # Important for subarrays starting at index 0
+
+For each element:
+  1. Add to prefix_sum
+  2. Check if (prefix_sum - k) exists in hash map
+  3. If yes, add frequency to count
+  4. Update hash map with current prefix_sum
+
+Time Complexity: O(n) - Single pass
+Space Complexity: O(n) - Hash map in worst case
+"""
+
+def subarraySum_optimized(nums, k):
+    """
+    Optimal solution using hash map and prefix sums.
+    
+    Args:
+        nums: List of integers
+        k: Target sum
+    
+    Returns:
+        Number of subarrays whose sum equals k
+    
+    Complexity:
+        Time: O(n) - Single pass through array
+        Space: O(n) - Hash map for prefix sums
+    """
+    subarray_count = 0
+    running_prefix_sum = 0
+    prefix_sum_frequency = {0: 1}  # Initialize with prefix sum 0
+    
+    for num in nums:
+        # Update current cumulative sum
+        running_prefix_sum += num
+        
+        # Check if we have seen the required prefix sum
+        required_prefix_sum = running_prefix_sum - k
+        
+        if required_prefix_sum in prefix_sum_frequency:
+            subarray_count += prefix_sum_frequency[required_prefix_sum]
+        
+        # Update frequency of current prefix sum
+        prefix_sum_frequency[running_prefix_sum] = prefix_sum_frequency.get(running_prefix_sum, 0) + 1
+    
+    return subarray_count
+
+
+class Solution(object):
+    """LeetCode 560: Subarray Sum Equals K"""
+    
+    def subarraySum(self, nums, k):
+        """
+        Return total number of contiguous subarrays whose sum equals k.
+        
+        Args:
+            nums: List of integers
+            k: Target sum
+        
+        Returns:
+            Number of subarrays with sum equal to k
+        """
+        return subarraySum_optimized(nums, k)
