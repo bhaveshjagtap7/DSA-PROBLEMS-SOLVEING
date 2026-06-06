@@ -101,3 +101,48 @@ def subarraySum_bruteforce(nums, k):
                 subarray_count += 1
     
     return subarray_count
+
+
+
+# ============================================================================
+# PREFIX SUM CONCEPT EXPLANATION
+# ============================================================================
+"""
+PREFIX SUM DEFINITION:
+Prefix sum array stores cumulative sums from start of array.
+
+For nums = [a, b, c, d]:
+  prefix_sum[0] = a
+  prefix_sum[1] = a + b
+  prefix_sum[2] = a + b + c
+  prefix_sum[3] = a + b + c + d
+
+KEY INSIGHT:
+Sum of subarray from i to j = prefix_sum[j] - prefix_sum[i-1]
+
+Example: nums = [1, 2, 3, 4]
+  Sum from index 1 to 2 (elements [2, 3]):
+  prefix_sum[2] = 1 + 2 + 3 = 6
+  prefix_sum[0] = 1
+  Sum = 6 - 1 = 5 (2 + 3 = 5) ✓
+
+TRANSFORMING THE PROBLEM:
+We need: subarray_sum(i, j) = k
+Which means: prefix_sum[j] - prefix_sum[i-1] = k
+
+Rearranging: prefix_sum[j] - k = prefix_sum[i-1]
+
+CRITICAL OBSERVATION:
+If we're at position j and compute current prefix_sum, we need to know 
+how many previous positions i-1 had prefix_sum equal to (current_prefix_sum - k).
+
+Why? Because:
+  current_prefix_sum - previous_prefix_sum = k
+  means subarray from (previous_index + 1) to current_index has sum k
+
+So problem reduces to:
+For each position j, count how many previous positions i had:
+  prefix_sum[i] = current_prefix_sum - k
+
+This is where hash map optimization comes in!
+"""
