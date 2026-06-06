@@ -298,35 +298,52 @@ Space Complexity: O(n) - Hash map in worst case
 
 def subarraySum_optimized(nums, k):
     """
-    Optimal solution using hash map and prefix sums.
+    Optimal solution using hash map and prefix sums (two-sum approach).
+    
+    This solution transforms the problem into a "two-sum" style problem:
+    Find pairs (i, j) such that prefix_sum[j] - prefix_sum[i] = k
+    which becomes: prefix_sum[j] - k = prefix_sum[i]
     
     Args:
         nums: List of integers
-        k: Target sum
+        k: Target sum to find in subarrays
     
     Returns:
-        Number of subarrays whose sum equals k
+        Number of contiguous subarrays whose sum equals k
     
-    Complexity:
-        Time: O(n) - Single pass through array
-        Space: O(n) - Hash map for prefix sums
+    Complexity Analysis:
+        Time: O(n) - Single pass through array, hash map lookups O(1) average
+        Space: O(n) - Hash map stores up to n unique prefix sums
+    
+    Key Insight:
+        If prefix_sum[j] - prefix_sum[i] = k, then subarray from i+1 to j has sum k
     """
     subarray_count = 0
     running_prefix_sum = 0
-    prefix_sum_frequency = {0: 1}  # Initialize with prefix sum 0
     
-    for num in nums:
-        # Update current cumulative sum
-        running_prefix_sum += num
+    # Hash map to track frequency of each prefix sum seen so far
+    # Initialize with {0: 1} to handle subarrays starting from index 0
+    # Why {0: 1}? Because sum from index 0 to j = prefix_sum[j] - 0
+    prefix_sum_frequency = {0: 1}
+    
+    # Process each element in the array
+    for current_element in nums:
+        # Update running cumulative sum (prefix sum up to current element)
+        running_prefix_sum += current_element
         
-        # Check if we have seen the required prefix sum
-        required_prefix_sum = running_prefix_sum - k
+        # Check if we have seen a prefix sum that makes current sum - k
+        # This means: current_prefix_sum - previous_prefix_sum = k
+        # So subarray from (previous_index + 1) to current_index sums to k
+        required_previous_prefix_sum = running_prefix_sum - k
         
-        if required_prefix_sum in prefix_sum_frequency:
-            subarray_count += prefix_sum_frequency[required_prefix_sum]
+        # If this required prefix sum exists in our hash map, add its frequency
+        if required_previous_prefix_sum in prefix_sum_frequency:
+            subarray_count += prefix_sum_frequency[required_previous_prefix_sum]
         
-        # Update frequency of current prefix sum
-        prefix_sum_frequency[running_prefix_sum] = prefix_sum_frequency.get(running_prefix_sum, 0) + 1
+        # Update the frequency of the current prefix sum in hash map
+        # This will be used for future positions to find subarrays ending there
+        current_frequency = prefix_sum_frequency.get(running_prefix_sum, 0)
+        prefix_sum_frequency[running_prefix_sum] = current_frequency + 1
     
     return subarray_count
 
