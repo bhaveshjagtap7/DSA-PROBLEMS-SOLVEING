@@ -146,3 +146,58 @@ For each position j, count how many previous positions i had:
 
 This is where hash map optimization comes in!
 """
+
+
+
+# ============================================================================
+# APPROACH 2: PREFIX SUM ARRAY
+# ============================================================================
+"""
+Strategy: Use prefix sum array to compute subarray sums efficiently.
+
+1. Build prefix sum array
+   - prefix[i] = sum of nums[0] to nums[i]
+   
+2. For each pair (i, j) with i <= j:
+   - subarray_sum = prefix[j] - prefix[i-1] (or just prefix[j] if i=0)
+   - Count if equals k
+
+Time Complexity: O(n²) - Still nested loops but sum calculation is O(1)
+Space Complexity: O(n) - Store prefix sum array
+"""
+
+def subarraySum_prefix_array(nums, k):
+    """
+    Prefix sum array approach for computing subarray sums.
+    
+    Args:
+        nums: List of integers
+        k: Target sum
+    
+    Returns:
+        Number of subarrays whose sum equals k
+    """
+    array_length = len(nums)
+    subarray_count = 0
+    
+    # Build prefix sum array
+    prefix_sums = [0] * array_length
+    prefix_sums[0] = nums[0]
+    
+    for i in range(1, array_length):
+        prefix_sums[i] = prefix_sums[i - 1] + nums[i]
+    
+    # Check all subarrays using prefix sums
+    for start_index in range(array_length):
+        for end_index in range(start_index, array_length):
+            # Compute subarray sum using prefix sums
+            if start_index == 0:
+                current_sum = prefix_sums[end_index]
+            else:
+                current_sum = prefix_sums[end_index] - prefix_sums[start_index - 1]
+            
+            # Check if sum equals target
+            if current_sum == k:
+                subarray_count += 1
+    
+    return subarray_count
