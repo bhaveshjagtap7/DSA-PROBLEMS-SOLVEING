@@ -346,3 +346,49 @@ class Solution(object):
             Number of subarrays with sum equal to k
         """
         return subarraySum_optimized(nums, k)
+
+
+
+# ============================================================================
+# COMPLEXITY ANALYSIS
+# ============================================================================
+"""
+APPROACH COMPARISON:
+
+Approach              Time         Space        Notes
+────────────────────────────────────────────────────────────────────
+Brute Force           O(n³)        O(1)         Check all subarrays
+Improved Brute Force  O(n²)        O(1)         Running sum optimization
+Prefix Sum Array      O(n²)        O(n)         Store prefix sums
+Hash Map Optimized    O(n)         O(n)         Optimal! ✓
+
+WHY HASH MAP IS OPTIMAL:
+- Must check all subarrays → At least O(n²) with brute force
+- Hash map reduces to O(n) by eliminating inner loop
+- Mathematical insight: current_sum - target_sum = needed_sum
+- Trade space for time: O(n) space saves O(n²) time
+
+TIME COMPLEXITY DETAILS:
+Brute Force (nested loops):
+  Outer loop: n iterations
+  Inner loop: n/2 average iterations
+  Sum calculation: j-i operations (O(n) worst)
+  Total: O(n³) worst case
+
+Hash Map Optimized:
+  Single pass through array: O(n)
+  Hash map operations: O(1) average case
+  Total: O(n) ✓
+
+SPACE COMPLEXITY DETAILS:
+Brute Force: O(1) - Only count variable
+Prefix Sum Array: O(n) - Store prefix sums
+Hash Map: O(n) - Store up to n unique prefix sums
+
+SCALABILITY:
+For n = 20,000 (max constraint):
+- Brute Force: ~4 trillion operations (way too slow!)
+- Hash Map: ~20,000 operations (fast) ✓
+
+RECOMMENDATION: Use hash map optimized solution!
+"""
