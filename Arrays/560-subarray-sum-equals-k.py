@@ -201,3 +201,68 @@ def subarraySum_prefix_array(nums, k):
                 subarray_count += 1
     
     return subarray_count
+
+
+
+# ============================================================================
+# APPROACH 3: HASH MAP OPTIMIZATION
+# ============================================================================
+"""
+Strategy: Use hash map to track frequency of prefix sums.
+
+Key Insight: 
+We need: prefix_sum[j] - prefix_sum[i-1] = k
+Which means: prefix_sum[j] - k = prefix_sum[i-1]
+
+So at position j, we look for how many previous positions i-1 had
+prefix_sum equal to (current_prefix_sum - k).
+
+Algorithm:
+1. Initialize hash map with {0: 1} (prefix sum of empty subarray before start)
+2. Traverse array, compute running prefix sum
+3. For each position:
+   - Check if (prefix_sum - k) exists in hash map
+   - If yes, add its frequency to count
+   - Update hash map with current prefix_sum frequency
+
+Time Complexity: O(n) - Single pass through array
+Space Complexity: O(n) - Hash map stores up to n unique prefix sums
+"""
+
+def subarraySum_hashmap(nums, k):
+    """
+    Hash map optimized solution using prefix sums.
+    
+    Args:
+        nums: List of integers
+        k: Target sum
+    
+    Returns:
+        Number of subarrays whose sum equals k
+    """
+    subarray_count = 0
+    running_prefix_sum = 0
+    
+    # Hash map to store frequency of prefix sums seen so far
+    # Initialize with {0: 1} to handle subarrays starting from index 0
+    prefix_sum_frequency = {0: 1}
+    
+    # Process each element in array
+    for current_element in nums:
+        # Update running prefix sum
+        running_prefix_sum += current_element
+        
+        # Check if (running_prefix_sum - k) exists in hash map
+        # This means there's a subarray ending at current position with sum k
+        required_prefix_sum = running_prefix_sum - k
+        
+        if required_prefix_sum in prefix_sum_frequency:
+            subarray_count += prefix_sum_frequency[required_prefix_sum]
+        
+        # Update frequency of current prefix sum in hash map
+        if running_prefix_sum in prefix_sum_frequency:
+            prefix_sum_frequency[running_prefix_sum] += 1
+        else:
+            prefix_sum_frequency[running_prefix_sum] = 1
+    
+    return subarray_count
