@@ -319,49 +319,72 @@ def topKFrequent_bucket(nums, k):
     """
     Bucket sort solution - optimal O(n) time complexity.
     
+    This solution uses counting/bucket sort approach for frequencies.
+    It transforms the problem into a frequency distribution problem.
+    
     Args:
-        nums: List of integers
+        nums: List of integers to analyze
         k: Number of most frequent elements to return
     
     Returns:
-        List of k most frequent elements
+        List of k most frequent elements (in any order)
     
     Complexity:
-        Time: O(n) - Linear time
-        Space: O(n) - Bucket array and frequency map
+        Time: O(n) - Linear time (count frequencies + bucket operations)
+        Space: O(n) - Frequency dictionary + bucket array
+    
+    Algorithm Steps:
+        1. Count frequency of each element using dictionary
+        2. Create bucket array where index = frequency
+        3. Place elements into corresponding frequency buckets
+        4. Traverse buckets from highest to lowest frequency
+        5. Collect k elements and return
+    
+    Why O(n) time:
+        - Frequency counting: O(n) (single pass)
+        - Bucket creation: O(u) where u = unique elements ≤ n
+        - Bucket traversal: O(n) (at most n buckets visited)
     """
     array_length = len(nums)
     
-    # Step 1: Count frequencies
-    frequency_map = {}
-    for num in nums:
-        frequency_map[num] = frequency_map.get(num, 0) + 1
+    # STEP 1: Count frequency of each element
+    # Dictionary: key = element, value = occurrence count
+    frequency_dictionary = {}
     
-    # Step 2: Create bucket array
-    # Index = frequency, Value = list of elements with that frequency
-    # Size n+1 because frequency can be from 1 to n
+    for current_element in nums:
+        # Increment count for current element
+        # Use get() with default 0 for first occurrence
+        frequency_dictionary[current_element] = frequency_dictionary.get(current_element, 0) + 1
+    
+    # STEP 2: Create bucket array for frequencies
+    # Index represents frequency, value is list of elements with that frequency
+    # Size is array_length + 1 because:
+    #   - Index 0 unused (frequency 0 not possible for valid elements)
+    #   - Maximum possible frequency = array_length
     bucket_array = [[] for _ in range(array_length + 1)]
     
-    for element, frequency in frequency_map.items():
-        bucket_array[frequency].append(element)
+    # Place each element into its frequency bucket
+    for element_value, element_frequency in frequency_dictionary.items():
+        bucket_array[element_frequency].append(element_value)
     
-    # Step 3: Collect top k frequent elements
-    result = []
+    # STEP 3: Collect top k frequent elements
+    # Traverse from highest frequency to lowest (array_length down to 1)
+    result_elements = []
     
-    # Traverse from highest frequency (n) to lowest (1)
-    for frequency in range(array_length, 0, -1):
-        # Get elements with current frequency
-        elements_at_frequency = bucket_array[frequency]
+    for current_frequency in range(array_length, 0, -1):
+        # Get all elements with current frequency
+        elements_at_this_frequency = bucket_array[current_frequency]
         
-        # Add elements to result
-        for element in elements_at_frequency:
-            result.append(element)
+        # Add elements to result (any order is acceptable)
+        for element in elements_at_this_frequency:
+            result_elements.append(element)
             
-            # Stop when we have k elements
-            if len(result) == k:
-                return result
+            # Stop when we have collected k elements
+            if len(result_elements) == k:
+                return result_elements
     
-    return result
+    # Return result (should always reach k elements per constraints)
+    return result_elements
 
 
 class Solution(object):
