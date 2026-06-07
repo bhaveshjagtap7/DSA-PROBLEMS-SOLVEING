@@ -383,3 +383,65 @@ class Solution(object):
             Space: O(n) - Frequency map and bucket array
         """
         return topKFrequent_bucket(nums, k)
+
+
+
+# ============================================================================
+# COMPLEXITY ANALYSIS
+# ============================================================================
+"""
+APPROACH COMPARISON:
+
+Approach              Time         Space        Notes
+────────────────────────────────────────────────────────────────────
+Brute Force           O(n log n)   O(n)         Sorting dominates
+Heap-Based            O(n log k)   O(n + k)     Better when k << n
+Bucket Sort           O(n)         O(n)         Optimal! ✓
+
+WHY BUCKET SORT IS OPTIMAL:
+- Follow-up requires better than O(n log n)
+- Bucket sort achieves O(n) linear time
+- Uses counting/bucket sort concept for frequencies
+- Maximum frequency ≤ n, so bucket array of size n+1 works
+- Linear in both time and space
+
+TIME COMPLEXITY BREAKDOWN:
+
+Brute Force (Sorting):
+  Frequency counting: O(n)
+  Sort u elements:    O(u log u) where u = unique elements
+  Extract k:          O(k)
+  Total:              O(n + u log u) ≈ O(n log n) worst case
+
+Heap-Based:
+  Frequency counting: O(n)
+  Heap operations:    O(u log k) where u = unique elements
+  Extract k:          O(k log k)
+  Total:              O(n + u log k) ≈ O(n log k)
+
+Bucket Sort:
+  Frequency counting: O(n)
+  Bucket creation:    O(u) ≈ O(n)
+  Bucket traversal:   O(n) (worst case visit each bucket)
+  Total:              O(n) ✓
+
+SPACE COMPLEXITY BREAKDOWN:
+
+Brute Force: O(n) - Frequency dictionary + sorted list
+Heap-Based:  O(n + k) - Frequency dict + heap of size k
+Bucket Sort: O(n) - Frequency dict + bucket array of size n+1
+
+WHY BUCKET SIZE n+1?
+- Frequency ranges from 1 to n (array length)
+- Need index n for elements appearing n times
+- Plus index 0 for consistency (though unused)
+- Example: n = 5 → buckets[0..5] (6 buckets)
+
+FOLLOW-UP REQUIREMENT:
+Problem asks for "better than O(n log n)"
+- Bucket Sort: O(n) ✓ (beats requirement)
+- Heap-Based: O(n log k) ✓ (better when k small)
+- Brute Force: O(n log n) ✗ (doesn't beat requirement)
+
+RECOMMENDATION: Use Bucket Sort for optimal O(n) solution!
+"""
