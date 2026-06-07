@@ -212,3 +212,76 @@ def get_frequency_pairs(nums):
     """
     frequency_map = build_frequency_map(nums)
     return list(frequency_map.items())
+
+
+
+# ============================================================================
+# APPROACH 2: HEAP-BASED OPTIMIZATION
+# ============================================================================
+"""
+Strategy: Use min-heap of size k to track top k frequent elements.
+
+Min-Heap Property: Smallest element at root
+We want top k LARGEST frequencies, so we keep smallest in heap to replace.
+
+Algorithm:
+1. Build frequency dictionary: O(n)
+2. For each (element, frequency) pair:
+   - Push (frequency, element) into heap
+   - If heap size > k, pop smallest (root)
+3. Extract elements from heap: O(k log k)
+4. Return elements
+
+Heap operations:
+- Push: O(log k)
+- Pop: O(log k)
+- Total for u unique elements: O(u log k)
+
+Time Complexity: O(n + u log k) ≈ O(n log k) worst case
+Space Complexity: O(n + k) ≈ O(n)
+"""
+
+import heapq
+
+def topKFrequent_heap(nums, k):
+    """
+    Heap-based solution for top k frequent elements.
+    
+    Args:
+        nums: List of integers
+        k: Number of most frequent elements to return
+    
+    Returns:
+        List of k most frequent elements
+    
+    Time Complexity: O(n + u log k) where u = unique elements
+    Space Complexity: O(n + k)
+    """
+    # Step 1: Count frequencies
+    frequency_map = {}
+    for num in nums:
+        frequency_map[num] = frequency_map.get(num, 0) + 1
+    
+    # Step 2: Use min-heap of size k
+    # Heap stores tuples: (frequency, element)
+    # Min-heap keeps smallest frequency at root
+    heap = []
+    
+    for element, frequency in frequency_map.items():
+        # Push (frequency, element) into heap
+        heapq.heappush(heap, (frequency, element))
+        
+        # If heap exceeds size k, remove element with smallest frequency
+        if len(heap) > k:
+            heapq.heappop(heap)
+    
+    # Step 3: Extract elements from heap
+    # Elements in heap are (frequency, element), need just element
+    result = []
+    while heap:
+        frequency, element = heapq.heappop(heap)
+        result.append(element)
+    
+    # Heap stores smallest k frequencies, but we want largest
+    # So result is in increasing frequency order, reverse it
+    return result[::-1]
