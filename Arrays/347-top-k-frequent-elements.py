@@ -104,3 +104,59 @@ def topKFrequent_bruteforce(nums, k):
         result.append(frequency_pairs[i][0])
     
     return result
+
+
+
+# ============================================================================
+# FREQUENCY MAP EXPLANATION
+# ============================================================================
+"""
+FREQUENCY COUNTING STRATEGY:
+
+Step 1: Count Occurrences
+- Use hash map (dictionary) to count frequency of each element
+- Key: element value
+- Value: count of occurrences
+
+Example: nums = [1, 1, 2, 1, 2, 3]
+  frequency_map = {
+      1: 3,
+      2: 2,
+      3: 1
+  }
+
+Step 2: Why Frequency Map is Efficient
+- Counting frequency: O(n) time (single pass through array)
+- Hash map operations: O(1) average case for insert/lookup
+- Memory: O(u) where u = number of unique elements
+
+PROBLEM TRANSFORMATION:
+After counting frequencies, the problem becomes:
+"Find k elements with highest values in frequency map"
+
+This can be approached in multiple ways:
+1. Sorting (O(u log u)) - Simple but not optimal for large u
+2. Max-Heap (O(u log k)) - Better when k << u
+3. Bucket Sort (O(n)) - Optimal when frequencies are bounded
+
+HEAP-BASED OPTIMIZATION:
+- Instead of sorting all u elements (O(u log u))
+- Use min-heap of size k to track top k elements
+- Insert elements into heap: O(u log k)
+- Extract top k: O(k log k)
+- Total: O(u log k) which is better than O(u log u) when k << u
+
+BUCKET SORT APPROACH:
+- Create array of buckets where index = frequency
+- Bucket[i] contains elements with frequency i
+- Since max frequency ≤ n, create array of size n+1
+- Traverse buckets from highest to lowest frequency
+- Collect k elements
+- Time: O(n), Space: O(n)
+
+KEY INSIGHTS:
+- Problem asks for "better than O(n log n)"
+- Frequency counting is O(n), not the bottleneck
+- Need to optimize the "find top k" step
+- Heap approach meets follow-up requirement
+"""
