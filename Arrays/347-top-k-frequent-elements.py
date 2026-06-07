@@ -285,3 +285,101 @@ def topKFrequent_heap(nums, k):
     # Heap stores smallest k frequencies, but we want largest
     # So result is in increasing frequency order, reverse it
     return result[::-1]
+
+
+
+# ============================================================================
+# FINAL OPTIMIZED SOLUTION: BUCKET SORT APPROACH
+# ============================================================================
+"""
+Optimal Solution: Bucket Sort (Count Sort for frequencies)
+
+Key Insight:
+Maximum frequency of any element ≤ n (array length)
+We can create array of size n+1 where index = frequency
+
+Algorithm:
+1. Count frequency of each element: O(n)
+2. Create bucket array of size n+1
+   - bucket[i] = list of elements with frequency i
+3. Traverse buckets from highest to lowest frequency
+4. Collect k elements
+
+Time Complexity: O(n) - Beats O(n log n) requirement
+Space Complexity: O(n) - Bucket array and frequency map
+
+Why it's optimal:
+- Frequency counting: O(n)
+- Bucket creation: O(n)
+- Bucket traversal: O(n)
+- Total: O(n) ✓
+"""
+
+def topKFrequent_bucket(nums, k):
+    """
+    Bucket sort solution - optimal O(n) time complexity.
+    
+    Args:
+        nums: List of integers
+        k: Number of most frequent elements to return
+    
+    Returns:
+        List of k most frequent elements
+    
+    Complexity:
+        Time: O(n) - Linear time
+        Space: O(n) - Bucket array and frequency map
+    """
+    array_length = len(nums)
+    
+    # Step 1: Count frequencies
+    frequency_map = {}
+    for num in nums:
+        frequency_map[num] = frequency_map.get(num, 0) + 1
+    
+    # Step 2: Create bucket array
+    # Index = frequency, Value = list of elements with that frequency
+    # Size n+1 because frequency can be from 1 to n
+    bucket_array = [[] for _ in range(array_length + 1)]
+    
+    for element, frequency in frequency_map.items():
+        bucket_array[frequency].append(element)
+    
+    # Step 3: Collect top k frequent elements
+    result = []
+    
+    # Traverse from highest frequency (n) to lowest (1)
+    for frequency in range(array_length, 0, -1):
+        # Get elements with current frequency
+        elements_at_frequency = bucket_array[frequency]
+        
+        # Add elements to result
+        for element in elements_at_frequency:
+            result.append(element)
+            
+            # Stop when we have k elements
+            if len(result) == k:
+                return result
+    
+    return result
+
+
+class Solution(object):
+    """LeetCode 347: Top K Frequent Elements"""
+    
+    def topKFrequent(self, nums, k):
+        """
+        Return k most frequent elements using bucket sort approach.
+        
+        Args:
+            nums: List of integers
+            k: Number of most frequent elements to return
+        
+        Returns:
+            List of k most frequent elements (any order)
+        
+        Complexity:
+            Time: O(n) - Linear time, meets follow-up requirement
+            Space: O(n) - Frequency map and bucket array
+        """
+        return topKFrequent_bucket(nums, k)
