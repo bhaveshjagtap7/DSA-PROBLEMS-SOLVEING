@@ -57,3 +57,50 @@ Explanation:
   Frequency: 5 appears 4 times, 3 appears 3 times, 2 appears 2 times
   Top 3: [5, 3, 2]
 """
+
+
+
+# ============================================================================
+# APPROACH 1: BRUTE FORCE
+# ============================================================================
+"""
+Strategy: Count frequency of each element, then sort by frequency.
+- Build frequency dictionary
+- Convert to list of (element, frequency) pairs
+- Sort by frequency (descending)
+- Take first k elements
+
+Time Complexity: O(n log n) - Sorting dominates
+Space Complexity: O(n) - Store frequency dictionary and list
+"""
+
+def topKFrequent_bruteforce(nums, k):
+    """
+    Brute force approach using frequency counting and sorting.
+    
+    Args:
+        nums: List of integers
+        k: Number of most frequent elements to return
+    
+    Returns:
+        List of k most frequent elements
+    """
+    # Count frequency of each element
+    frequency_map = {}
+    for num in nums:
+        frequency_map[num] = frequency_map.get(num, 0) + 1
+    
+    # Convert to list of (element, frequency) pairs
+    frequency_pairs = list(frequency_map.items())
+    
+    # Sort by frequency in descending order
+    # Key: frequency (second element of tuple)
+    # Reverse: True for descending order
+    frequency_pairs.sort(key=lambda x: x[1], reverse=True)
+    
+    # Extract first k elements
+    result = []
+    for i in range(k):
+        result.append(frequency_pairs[i][0])
+    
+    return result
