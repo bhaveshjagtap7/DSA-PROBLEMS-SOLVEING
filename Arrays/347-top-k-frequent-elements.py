@@ -160,3 +160,55 @@ KEY INSIGHTS:
 - Need to optimize the "find top k" step
 - Heap approach meets follow-up requirement
 """
+
+
+
+# ============================================================================
+# FREQUENCY COUNTING IMPLEMENTATION
+# ============================================================================
+"""
+Efficient frequency counting implementation.
+
+Key optimizations:
+1. Use dictionary.get() for concise counting
+2. Handle both positive and negative numbers
+3. Memory efficient: O(u) where u = unique elements
+"""
+
+def build_frequency_map(nums):
+    """
+    Count frequency of each element in array.
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        Dictionary mapping element -> frequency count
+    
+    Time Complexity: O(n)
+    Space Complexity: O(u) where u = number of unique elements
+    """
+    frequency_dict = {}
+    
+    for element in nums:
+        # Increment count for current element
+        # Using get() with default value 0
+        frequency_dict[element] = frequency_dict.get(element, 0) + 1
+    
+    return frequency_dict
+
+
+def get_frequency_pairs(nums):
+    """
+    Create list of (element, frequency) pairs from array.
+    
+    Args:
+        nums: List of integers
+    
+    Returns:
+        List of tuples (element, frequency)
+    
+    Useful for sorting or heap operations.
+    """
+    frequency_map = build_frequency_map(nums)
+    return list(frequency_map.items())
