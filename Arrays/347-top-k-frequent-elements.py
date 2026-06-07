@@ -445,3 +445,98 @@ Problem asks for "better than O(n log n)"
 
 RECOMMENDATION: Use Bucket Sort for optimal O(n) solution!
 """
+
+
+
+# ============================================================================
+# EDGE CASES AND TEST CASES
+# ============================================================================
+"""
+Edge Cases to Consider:
+
+1. Single element array
+   - [5], k = 1 → [5]
+   - Always returns the only element
+
+2. All elements same
+   - [1, 1, 1, 1], k = 1 → [1]
+   - Only one unique element
+
+3. All elements distinct
+   - [1, 2, 3, 4], k = 2 → any 2 elements (order doesn't matter)
+   - Each frequency = 1, tie resolved arbitrarily
+
+4. Negative numbers
+   - [-1, -2, -1, -3], k = 2 → [-1, -2] or [-1, -3]
+   - Handles negative values correctly
+
+5. k = number of unique elements
+   - Returns all elements (any order)
+   - Example: [1, 2, 2, 3], k = 2 → [2, 1] or [2, 3]
+
+6. k = 1
+   - Returns single most frequent element
+   - If ties, any of the most frequent elements
+
+7. Large array with small k
+   - [1...100000], k = 5 → Fast with heap/bucket approaches
+   - Tests scalability
+
+8. Frequency ties
+   - [1, 1, 2, 2, 3], k = 2 → [1, 2] (both frequency 2)
+   - Any tie-breaking order acceptable
+
+9. Empty array
+   - Not possible per constraints (1 ≤ nums.length)
+
+10. k larger than unique elements
+    - Not possible per constraints (1 ≤ k ≤ unique elements)
+"""
+
+
+if __name__ == "__main__":
+    test_cases = [
+        # (nums, k, expected_sets, description)
+        ([1, 1, 1, 2, 2, 3], 2, [{1, 2}], "Basic example"),
+        ([1], 1, [{1}], "Single element"),
+        ([1, 1, 2, 2, 2, 3, 3, 3, 3], 2, [{3, 2}], "Clear top 2"),
+        ([4, 1, -1, 2, -1, 2, 3], 2, [{-1, 2}], "With negatives"),
+        ([5, 5, 5, 5, 3, 3, 3, 2, 2, 1], 3, [{5, 3, 2}], "Top 3 elements"),
+        ([1, 2, 3, 4], 2, [any 2 of {1, 2, 3, 4}], "All distinct"),
+        ([1, 1, 1, 1], 1, [{1}], "All elements same"),
+        ([1, 2, 2, 3, 3, 3, 4, 4, 4, 4], 1, [{4}], "Single most frequent"),
+        ([-1, -1, -2, -3], 2, [{-1, -2}, {-1, -3}], "Negative frequencies"),
+        ([1, 1, 2, 2, 3, 3, 4, 4], 3, [any 3 of {1, 2, 3, 4}], "All ties"),
+    ]
+    
+    print("=" * 80)
+    print("LeetCode 347: Top K Frequent Elements - Test Results")
+    print("=" * 80)
+    
+    passed = 0
+    failed = 0
+    
+    for i, (nums, k, expected_sets, description) in enumerate(test_cases, 1):
+        # Test optimized solution
+        result = topKFrequent_bucket(nums[:])
+        
+        # Check if result matches any expected set
+        result_set = set(result)
+        is_correct = any(result_set == expected for expected in expected_sets)
+        
+        status = "✓ PASS" if is_correct else "✗ FAIL"
+        if is_correct:
+            passed += 1
+        else:
+            failed += 1
+        
+        print(f"\nTest {i}: {status}")
+        print(f"  Description: {description}")
+        print(f"  Input:       nums={nums}, k={k}")
+        print(f"  Expected:    Any of {expected_sets}")
+        print(f"  Got:         {result}")
+    
+    print("\n" + "=" * 80)
+    print(f"SUMMARY: {passed} passed, {failed} failed out of {len(test_cases)} tests")
+    print("Optimal Solution: Bucket Sort - Time O(n) | Space O(n)")
+    print("=" * 80)
