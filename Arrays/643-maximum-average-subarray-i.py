@@ -35,6 +35,10 @@ Time Complexity: O(n*k) - For each of (n-k+1) positions, we sum k elements
 Space Complexity: O(1) - Only using a few variables
 """
 
+# ============================================================================
+# APPROACH 1: BRUTE FORCE
+# ============================================================================
+
 def findMaxAverage_brute_force(nums, k):
     """
     Brute force solution to find maximum average subarray of length k.
@@ -79,6 +83,10 @@ Example with nums = [1,12,-5,-6,50,3], k = 4:
 - Maximum sum = 51, average = 51/4 = 12.75
 """
 
+# ============================================================================
+# APPROACH 2: OPTIMIZED - SLIDING WINDOW
+# ============================================================================
+
 def findMaxAverage_sliding_window(nums, k):
     """
     Optimized sliding window solution to find maximum average subarray of length k.
@@ -113,6 +121,36 @@ Time Complexity: O(n)
 Space Complexity: O(1)
 - We only use a few variables (current_sum, max_sum, i) to track the window sum and the maximum sum.
 - No extra space that scales with the input size is allocated.
+"""
+
+# ============================================================================
+# INTERVIEW KEY OBSERVATIONS & NOTES
+# ============================================================================
+"""
+1. SLIDING WINDOW PATTERN IDENTIFICATION:
+   - The problem asks for a contiguous subarray of a fixed length (k).
+   - Any time a problem asks for an optimal subarray/substring of fixed length, think "Sliding Window" immediately.
+   - This pattern avoids redundant calculations by reusing the sum of overlapping elements between adjacent windows.
+
+2. AVOID DIVISION DURING ITERATION:
+   - A common sub-optimal choice is to divide the current window sum by k at every step.
+   - Since k is constant, finding the maximum average is equivalent to finding the maximum sum.
+   - Dividing only once at the end (max_sum / k) saves (n - k) division operations, which improves runtime performance.
+
+3. CORNER CASE - INITIALIZATION FOR NEGATIVE NUMBERS:
+   - A classic mistake in interviews is initializing `max_sum = 0` or `max_sum = float('-inf')` and then starting the window loop.
+   - If all elements in `nums` are negative, initializing `max_sum = 0` would result in an incorrect final maximum.
+   - The safest approach is to initialize `max_sum` directly to the sum of the first window (`sum(nums[:k])`).
+
+4. POTENTIAL OVERFLOW IN OTHER LANGUAGES:
+   - In Python, integers have arbitrary precision so overflow is not an issue.
+   - However, in languages like Java, C++, or C, if `nums[i]` constraints are large and `k` is up to 10^5, the sum could exceed standard 32-bit integer limits.
+   - Mentioning that we might need to use a 64-bit integer (like `long` in Java/C++) to prevent overflow shows strong attention to detail.
+
+5. RELATED PROBLEMS:
+   - LeetCode 209: Minimum Size Subarray Sum (Variable window size)
+   - LeetCode 438: Find All Anagrams in a String (Fixed window size)
+   - LeetCode 3: Longest Substring Without Repeating Characters (Variable window size)
 """
 
 # ============================================================================
