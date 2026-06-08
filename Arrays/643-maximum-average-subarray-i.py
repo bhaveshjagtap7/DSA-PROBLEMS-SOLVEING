@@ -56,3 +56,25 @@ def findMaxAverage_brute_force(nums, k):
         max_sum = max(max_sum, current_sum)
     
     return max_sum / k
+
+"""
+Sliding Window Explanation:
+The sliding window technique is an optimization for problems involving subarrays of fixed length.
+Instead of recalculating the sum from scratch for each position, we maintain a "window" of k elements.
+
+Key insight: When we slide the window by one position:
+- We remove the element that's leaving the window (leftmost element)
+- We add the element that's entering the window (new rightmost element)
+- The new sum = old sum - outgoing_element + incoming_element
+
+This reduces the time complexity from O(n*k) to O(n) because each element is added
+and subtracted from the sum exactly once.
+
+Example with nums = [1,12,-5,-6,50,3], k = 4:
+- Window 1: [1,12,-5,-6] -> sum = 2
+- Slide: remove 1, add 50 -> new sum = 2 - 1 + 50 = 51
+- Window 2: [12,-5,-6,50] -> sum = 51
+- Slide: remove 12, add 3 -> new sum = 51 - 12 + 3 = 42
+- Window 3: [-5,-6,50,3] -> sum = 42
+- Maximum sum = 51, average = 51/4 = 12.75
+"""
