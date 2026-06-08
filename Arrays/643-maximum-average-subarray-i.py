@@ -25,4 +25,34 @@ Constraints:
 - n == nums.length
 - 1 <= k <= n <= 10^5
 - -10^4 <= nums[i] <= 10^4
+
+Brute Force Approach:
+The brute force approach considers every possible subarray of length k and calculates
+the average for each. We iterate through all starting positions from 0 to n-k,
+compute the sum of k elements starting at each position, and track the maximum sum.
+
+Time Complexity: O(n*k) - For each of (n-k+1) positions, we sum k elements
+Space Complexity: O(1) - Only using a few variables
 """
+
+def findMaxAverage_brute_force(nums, k):
+    """
+    Brute force solution to find maximum average subarray of length k.
+    
+    Args:
+        nums: List of integers
+        k: Length of subarray
+    
+    Returns:
+        Maximum average value as float
+    """
+    n = len(nums)
+    max_sum = float('-inf')
+    
+    for i in range(n - k + 1):
+        current_sum = 0
+        for j in range(i, i + k):
+            current_sum += nums[j]
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum / k
