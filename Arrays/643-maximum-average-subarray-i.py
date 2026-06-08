@@ -78,3 +78,26 @@ Example with nums = [1,12,-5,-6,50,3], k = 4:
 - Window 3: [-5,-6,50,3] -> sum = 42
 - Maximum sum = 51, average = 51/4 = 12.75
 """
+
+def findMaxAverage_sliding_window(nums, k):
+    """
+    Optimized sliding window solution to find maximum average subarray of length k.
+    
+    Args:
+        nums: List of integers
+        k: Length of subarray
+    
+    Returns:
+        Maximum average value as float
+    """
+    # Initialize the sum of the first window
+    current_sum = sum(nums[:k])
+    max_sum = current_sum
+    
+    # Slide the window across the array
+    for i in range(k, len(nums)):
+        current_sum += nums[i] - nums[i - k]
+        if current_sum > max_sum:
+            max_sum = current_sum
+            
+    return max_sum / k
