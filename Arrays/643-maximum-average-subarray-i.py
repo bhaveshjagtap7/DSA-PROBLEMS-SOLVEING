@@ -114,3 +114,89 @@ Space Complexity: O(1)
 - We only use a few variables (current_sum, max_sum, i) to track the window sum and the maximum sum.
 - No extra space that scales with the input size is allocated.
 """
+
+# ============================================================================
+# EDGE CASES TO CONSIDER
+# ============================================================================
+"""
+1. k = 1 (Minimum allowed window size):
+   - In this case, the maximum average subarray is just the maximum element of the array.
+   - Example: nums = [1, 12, -5], k = 1 -> Output: 12.0
+2. k = n (Window size equals array length):
+   - The only subarray of length k is the entire array.
+   - Example: nums = [1, 12, -5], k = 3 -> Output: 2.66667
+3. All negative numbers:
+   - Make sure we initialize max_sum correctly (cannot initialize to 0; must initialize to the first window's sum).
+   - Example: nums = [-1, -2, -3], k = 2 -> Output: -1.5 (subarray [-1, -2])
+4. All identical elements:
+   - Example: nums = [5, 5, 5, 5], k = 2 -> Output: 5.0
+5. Alternating signs:
+   - Example: nums = [1, -1, 1, -1], k = 2 -> Output: 0.0
+"""
+
+# ============================================================================
+# DRY RUN
+# ============================================================================
+"""
+DRY RUN: Sliding Window Approach
+Input: nums = [1, 12, -5, -6, 50, 3], k = 4
+
+1. Initial Window (first k elements):
+   - Window: nums[0:4] = [1, 12, -5, -6]
+   - current_sum = 1 + 12 + (-5) + (-6) = 2
+   - max_sum = 2
+
+2. Iteration (i goes from k to len(nums) - 1, i.e., 4 to 5):
+   - i = 4:
+     - Element entering: nums[4] = 50
+     - Element leaving: nums[4 - 4] = nums[0] = 1
+     - current_sum = 2 + 50 - 1 = 51
+     - Is current_sum (51) > max_sum (2)? Yes -> max_sum = 51
+     
+   - i = 5:
+     - Element entering: nums[5] = 3
+     - Element leaving: nums[5 - 4] = nums[1] = 12
+     - current_sum = 51 + 3 - 12 = 42
+     - Is current_sum (42) > max_sum (51)? No -> max_sum remains 51
+
+3. Return result:
+   - max_sum / k = 51 / 4 = 12.75
+"""
+
+# ============================================================================
+# TEST CASES
+# ============================================================================
+
+if __name__ == "__main__":
+    test_cases = [
+        # (nums, k, expected, description)
+        ([1, 12, -5, -6, 50, 3], 4, 12.75, "Standard test case with positive and negative numbers"),
+        ([5], 1, 5.0, "Single element array with k=1"),
+        ([0, 4, 0, 3, 2], 1, 4.0, "Array with zeros and k=1"),
+        ([-1], 1, -1.0, "Single negative element"),
+        ([-1, -12, -5, -6, -50, -3], 4, -6.0, "All negative numbers"),
+        ([1, 2, 3, 4, 5], 5, 3.0, "k equals length of array"),
+        ([5, 5, 5, 5], 2, 5.0, "All elements identical"),
+        ([0, 0, 0, 0], 2, 0.0, "All zeros"),
+    ]
+    
+    print("=" * 70)
+    print("LeetCode 643: Maximum Average Subarray I - Tests")
+    print("=" * 70)
+    
+    for i, (nums, k, expected, desc) in enumerate(test_cases, 1):
+        result_bf = findMaxAverage_brute_force(nums, k)
+        result_sw = findMaxAverage_sliding_window(nums, k)
+        
+        # Check correctness (accept calculation error < 10^-5)
+        bf_pass = abs(result_bf - expected) < 1e-5
+        sw_pass = abs(result_sw - expected) < 1e-5
+        
+        status = "PASS" if (bf_pass and sw_pass) else "FAIL"
+        print(f"\nTest {i}: {status}")
+        print(f"  Desc:      {desc}")
+        print(f"  Input:     nums={nums}, k={k}")
+        print(f"  Expected:  {expected}")
+        print(f"  Results:   Brute Force = {result_bf} | Sliding Window = {result_sw}")
+    
+    print("\n" + "=" * 70)
