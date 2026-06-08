@@ -99,5 +99,18 @@ def findMaxAverage_sliding_window(nums, k):
         current_sum += nums[i] - nums[i - k]
         if current_sum > max_sum:
             max_sum = current_sum
-            
     return max_sum / k
+
+"""
+Complexity Analysis for Optimized Sliding Window:
+
+Time Complexity: O(n)
+- We compute the sum of the first k elements once, which takes O(k) time.
+- Then, we iterate from index k to n-1. In each step of the loop, we perform a constant number of operations: one addition, one subtraction, one comparison, and one assignment. This takes O(1) time per step.
+- The loop runs (n - k) times.
+- Therefore, the total time complexity is O(k) + O(n - k) = O(n), where n is the number of elements in the array.
+
+Space Complexity: O(1)
+- We only use a few variables (current_sum, max_sum, i) to track the window sum and the maximum sum.
+- No extra space that scales with the input size is allocated.
+"""
