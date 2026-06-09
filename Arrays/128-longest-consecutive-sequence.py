@@ -26,10 +26,17 @@ This ensures we only start from the beginning of a sequence.
 Complexity analysis:
 - Time Complexity: O(n). Although there is a nested loop, the inner loop only runs for the length of each consecutive sequence. Each number is visited at most twice.
 - Space Complexity: O(n). We use a HashSet to store all numbers.
+
+Edge cases:
+- Empty array: returns 0
+- Array with duplicates: HashSet automatically handles duplicates
+- All elements consecutive: handled efficiently in one inner loop run
 """
 
 class Solution:
     def longestConsecutive(self, nums: list[int]) -> int:
+        if not nums:
+            return 0
         num_set = set(nums)
         longest_streak = 0
         
