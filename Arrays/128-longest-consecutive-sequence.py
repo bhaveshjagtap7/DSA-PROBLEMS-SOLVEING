@@ -11,14 +11,21 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 Example 2:
 Input: nums = [0,3,7,2,5,8,4,6,0,1]
 Output: 9
+
+Initial Approach Discussion:
+The naive approach is to sort the array and then find the longest consecutive streak.
+Sorting takes O(n log n) time.
 """
 
 class Solution:
     def longestConsecutive(self, nums: list[int]) -> int:
-        if not nums: return 0
+        if not nums:
+            return 0
+        
         nums.sort()
         longest_streak = 1
         current_streak = 1
+        
         for i in range(1, len(nums)):
             if nums[i] != nums[i-1]:
                 if nums[i] == nums[i-1] + 1:
@@ -26,4 +33,5 @@ class Solution:
                 else:
                     longest_streak = max(longest_streak, current_streak)
                     current_streak = 1
+                    
         return max(longest_streak, current_streak)
