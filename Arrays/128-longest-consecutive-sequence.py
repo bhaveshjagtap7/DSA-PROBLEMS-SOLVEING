@@ -17,8 +17,11 @@ The naive approach is to sort the array and then find the longest consecutive st
 Sorting takes O(n log n) time.
 
 HashSet based optimization:
-To achieve O(n) time, we can use a HashSet.
-By storing all numbers in a HashSet, we can do O(1) lookups.
+To achieve O(n) time, we can use a HashSet. By storing all numbers in a HashSet, we can do O(1) lookups.
+
+Final O(n) solution:
+We only start counting a sequence if `num - 1` is not in the set.
+This ensures we only start from the beginning of a sequence.
 """
 
 class Solution:
