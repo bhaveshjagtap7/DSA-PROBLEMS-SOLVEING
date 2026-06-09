@@ -22,6 +22,10 @@ To achieve O(n) time, we can use a HashSet. By storing all numbers in a HashSet,
 Final O(n) solution:
 We only start counting a sequence if `num - 1` is not in the set.
 This ensures we only start from the beginning of a sequence.
+
+Complexity analysis:
+- Time Complexity: O(n). Although there is a nested loop, the inner loop only runs for the length of each consecutive sequence. Each number is visited at most twice.
+- Space Complexity: O(n). We use a HashSet to store all numbers.
 """
 
 class Solution:
