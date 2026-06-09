@@ -31,24 +31,47 @@ Edge cases:
 - Empty array: returns 0
 - Array with duplicates: HashSet automatically handles duplicates
 - All elements consecutive: handled efficiently in one inner loop run
+
+Dry run:
+nums = [100, 4, 200, 1, 3, 2]
+1. num_set = {1, 2, 3, 4, 100, 200}
+2. num = 100. 99 not in set. current_num = 100, current_streak = 1. longest_streak = 1.
+3. num = 4. 3 in set. Skip.
+4. num = 200. 199 not in set. current_num = 200, current_streak = 1. longest_streak = 1.
+5. num = 1. 0 not in set. current_num = 1. Loop 2, 3, 4. current_streak = 4. longest_streak = 4.
+
+Interview insights:
+- Always clarify if the array can be empty or have duplicates.
+- The trick to achieving O(n) is the `if num - 1 not in num_set` condition.
 """
 
+from typing import List
+
 class Solution:
-    def longestConsecutive(self, nums: list[int]) -> int:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        """
+        Finds the length of the longest consecutive elements sequence.
+        """
+        # Edge case: empty list
         if not nums:
             return 0
+            
+        # Create a HashSet for O(1) lookups
         num_set = set(nums)
-        longest_streak = 0
+        longest_sequence_length = 0
         
-        for num in num_set:
-            if num - 1 not in num_set:
-                current_num = num
-                current_streak = 1
+        for number in num_set:
+            # Check if it is the start of a sequence
+            if number - 1 not in num_set:
+                current_number = number
+                current_sequence_length = 1
                 
-                while current_num + 1 in num_set:
-                    current_num += 1
-                    current_streak += 1
+                # Expand the sequence
+                while current_number + 1 in num_set:
+                    current_number += 1
+                    current_sequence_length += 1
                     
-                longest_streak = max(longest_streak, current_streak)
+                # Update the maximum sequence length
+                longest_sequence_length = max(longest_sequence_length, current_sequence_length)
                 
-        return longest_streak
+        return longest_sequence_length
