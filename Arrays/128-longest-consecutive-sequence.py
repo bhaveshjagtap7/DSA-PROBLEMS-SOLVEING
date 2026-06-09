@@ -15,23 +15,25 @@ Output: 9
 Initial Approach Discussion:
 The naive approach is to sort the array and then find the longest consecutive streak.
 Sorting takes O(n log n) time.
+
+HashSet based optimization:
+To achieve O(n) time, we can use a HashSet.
+By storing all numbers in a HashSet, we can do O(1) lookups.
 """
 
 class Solution:
     def longestConsecutive(self, nums: list[int]) -> int:
-        if not nums:
-            return 0
+        num_set = set(nums)
+        longest_streak = 0
         
-        nums.sort()
-        longest_streak = 1
-        current_streak = 1
-        
-        for i in range(1, len(nums)):
-            if nums[i] != nums[i-1]:
-                if nums[i] == nums[i-1] + 1:
-                    current_streak += 1
-                else:
-                    longest_streak = max(longest_streak, current_streak)
-                    current_streak = 1
-                    
-        return max(longest_streak, current_streak)
+        for num in num_set:
+            current_num = num
+            current_streak = 1
+            
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_streak += 1
+                
+            longest_streak = max(longest_streak, current_streak)
+            
+        return longest_streak
