@@ -24,3 +24,35 @@ Constraints:
 # Example 3:
 # Input: strs = ["a"]
 # Output: [["a"]]
+
+
+# ============================================================================
+# APPROACH 1: INITIAL/BRUTE FORCE GROUPING
+# ============================================================================
+
+def groupAnagrams_initial(strs):
+    """
+    Initial grouping approach.
+    We iterate through the input strings. For each string, we try to place it
+    into an existing group of anagrams. We determine if a string belongs to a group
+    by comparing its sorted character list with the sorted version of the first
+    string in the group.
+    
+    If it fits in an existing group, we append it. Otherwise, we create a new group.
+    """
+    groups = []
+    
+    for s in strs:
+        found_group = False
+        for group in groups:
+            # Check if current string is an anagram of the group representative
+            if sorted(s) == sorted(group[0]):
+                group.append(s)
+                found_group = True
+                break
+        
+        # If no matching group is found, create a new group
+        if not found_group:
+            groups.append([s])
+            
+    return groups
