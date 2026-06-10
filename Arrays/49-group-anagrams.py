@@ -51,6 +51,21 @@ from collections import defaultdict
 
 
 # ============================================================================
+# EDGE CASES TO CONSIDER
+# ============================================================================
+"""
+1. Empty array: Input: [] -> Output: [] (Though constraints specify 1 <= strs.length)
+2. Single empty string: Input: [""] -> Output: [[""]]
+3. Multiple empty strings: Input: ["", ""] -> Output: [["", ""]]
+4. Single character string: Input: ["a"] -> Output: [["a"]]
+5. No anagrams: Input: ["abc", "def", "ghi"] -> Output: [["abc"], ["def"], ["ghi"]]
+6. All anagrams: Input: ["abc", "bca", "cab"] -> Output: [["abc", "bca", "cab"]]
+7. Identical strings: Input: ["a", "a", "a"] -> Output: [["a", "a", "a"]]
+8. Different length strings: Input: ["a", "ab", "abc"] -> Output: [["a"], ["ab"], ["abc"]]
+"""
+
+
+# ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 
@@ -141,3 +156,102 @@ def groupAnagrams_optimized(strs):
         anagram_map[tuple(count)].append(s)
         
     return list(anagram_map.values())
+
+
+# ============================================================================
+# TEST CASES
+# ============================================================================
+
+if __name__ == "__main__":
+    test_cases = [
+        # (input_list, expected_output, description)
+        (
+            ["eat", "tea", "tan", "ate", "nat", "bat"],
+            [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]],
+            "Standard multi-anagram mix"
+        ),
+        (
+            [""],
+            [[""]],
+            "Single empty string"
+        ),
+        (
+            ["a"],
+            [["a"]],
+            "Single character string"
+        ),
+        (
+            ["", ""],
+            [["", ""]],
+            "Multiple empty strings"
+        ),
+        (
+            ["abc", "def", "ghi"],
+            [["abc"], ["def"], ["ghi"]],
+            "No anagrams present"
+        ),
+        (
+            ["abc", "bca", "cab"],
+            [["abc", "bca", "cab"]],
+            "All strings are anagrams"
+        ),
+        (
+            ["a", "a", "a"],
+            [["a", "a", "a"]],
+            "Identical strings"
+        ),
+        (
+            ["a", "ab", "abc"],
+            [["a"], ["ab"], ["abc"]],
+            "Different length strings"
+        ),
+        (
+            [],
+            [],
+            "Empty list (Extreme edge case)"
+        )
+    ]
+    
+    def normalize(groups):
+        """Helper to sort groups and their elements for comparison."""
+        return sorted([sorted(g) for g in groups])
+        
+    print("=" * 80)
+    print("LeetCode 49: Group Anagrams - Test Suite")
+    print("=" * 80)
+    
+    all_success = True
+    for i, (strs, expected, desc) in enumerate(test_cases, 1):
+        # Run all three implementations
+        res_initial = groupAnagrams_initial(strs[:])
+        res_hashmap = groupAnagrams_hashmap(strs[:])
+        res_optimized = groupAnagrams_optimized(strs[:])
+        
+        # Normalize outputs to ignore order
+        norm_expected = normalize(expected)
+        norm_initial = normalize(res_initial)
+        norm_hashmap = normalize(res_hashmap)
+        norm_optimized = normalize(res_optimized)
+        
+        match_initial = norm_initial == norm_expected
+        match_hashmap = norm_hashmap == norm_expected
+        match_optimized = norm_optimized == norm_expected
+        
+        passed = match_initial and match_hashmap and match_optimized
+        if not passed:
+            all_success = False
+            
+        status = "✓ PASS" if passed else "✗ FAIL"
+        print(f"\nTest {i}: {desc} -> {status}")
+        print(f"  Input:    {strs}")
+        print(f"  Expected: {expected}")
+        print(f"  Initial:  {res_initial} (Match: {match_initial})")
+        print(f"  HashMap:  {res_hashmap} (Match: {match_hashmap})")
+        print(f"  Opt Count:{res_optimized} (Match: {match_optimized})")
+        
+    print("\n" + "=" * 80)
+    if all_success:
+        print("SUMMARY: All test cases passed successfully!")
+    else:
+        print("SUMMARY: Some test cases failed.")
+    print("=" * 80)
