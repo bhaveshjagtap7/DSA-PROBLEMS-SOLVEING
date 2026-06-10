@@ -27,6 +27,18 @@ Constraints:
 
 
 # ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
+
+def is_anagram(str1: str, str2: str) -> bool:
+    """
+    Checks if two strings are anagrams of each other.
+    Two strings are anagrams if their sorted representations are identical.
+    """
+    return sorted(str1) == sorted(str2)
+
+
+# ============================================================================
 # APPROACH 1: INITIAL/BRUTE FORCE GROUPING
 # ============================================================================
 
@@ -46,7 +58,7 @@ def groupAnagrams_initial(strs):
         found_group = False
         for group in groups:
             # Check if current string is an anagram of the group representative
-            if sorted(s) == sorted(group[0]):
+            if is_anagram(s, group[0]):
                 group.append(s)
                 found_group = True
                 break
