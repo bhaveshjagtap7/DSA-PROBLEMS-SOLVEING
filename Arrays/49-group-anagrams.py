@@ -11,6 +11,28 @@ Constraints:
 - 1 <= strs.length <= 10^4
 - 0 <= strs[i].length <= 100
 - strs[i] consists of lowercase English letters.
+
+Time Complexity Analysis:
+- Approach 1 (Initial / Brute Force): O(N^2 * K log K)
+  Where N is the number of strings and K is the maximum length of a string.
+  We compare each string against the representative of all existing groups (up to N groups).
+  Each comparison does sorting of size K which takes O(K log K).
+- Approach 2 (HashMap with Sorted Keys): O(N * K log K)
+  We iterate through N strings. For each string of length K, we sort the characters
+  in O(K log K) time and insert it into a hash map. HashMap insertions/lookups take O(K) 
+  average time for string keys.
+- Approach 3 (Optimized HashMap with Count Keys): O(N * K)
+  We iterate through N strings. For each string of length K, we count character frequencies
+  in O(K) time and insert/lookup the tuple representation of size 26 in the HashMap in O(1) 
+  average time.
+
+Space Complexity Analysis:
+- Approach 1 (Initial / Brute Force): O(N * K)
+  To store the resulting groups of anagrams.
+- Approach 2 (HashMap with Sorted Keys): O(N * K)
+  To store the hash map containing N strings partitioned by their sorted keys of length K.
+- Approach 3 (Optimized HashMap with Count Keys): O(N * K)
+  To store the hash map containing N strings partitioned by their count tuple keys of size 26.
 """
 
 from collections import defaultdict
