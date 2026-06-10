@@ -66,6 +66,50 @@ from collections import defaultdict
 
 
 # ============================================================================
+# DRY RUNS
+# ============================================================================
+"""
+DRY RUN 1: HashMap Sorted Key Approach (Approach 2)
+Input: ["eat", "tea", "tan"]
+
+1. Initialize empty hashmap: anagram_map = {}
+2. Iteration 1: s = "eat"
+   - Sort "eat" -> ['e', 'a', 't'] -> join -> "aet"
+   - "aet" not in map. Create entry: {"aet": ["eat"]}
+3. Iteration 2: s = "tea"
+   - Sort "tea" -> ['t', 'e', 'a'] -> join -> "aet"
+   - "aet" exists in map. Append: {"aet": ["eat", "tea"]}
+4. Iteration 3: s = "tan"
+   - Sort "tan" -> ['t', 'a', 'n'] -> join -> "ant"
+   - "ant" not in map. Create entry: {"aet": ["eat", "tea"], "ant": ["tan"]}
+5. Return list(anagram_map.values()) -> [["eat", "tea"], ["tan"]]
+
+---
+
+DRY RUN 2: Optimized HashMap Count Key Approach (Approach 3)
+Input: ["eat", "tea", "tan"]
+
+1. Initialize empty hashmap: anagram_map = {}
+2. Iteration 1: s = "eat"
+   - Initialize count = [0] * 26
+   - Map characters: 'e'->1, 'a'->1, 't'->1
+   - Convert count to tuple of size 26 (key has 1s at indices 0, 4, 19)
+   - tuple(count) not in map. Create entry: {tuple(count): ["eat"]}
+3. Iteration 2: s = "tea"
+   - Initialize count = [0] * 26
+   - Map characters: 't'->1, 'e'->1, 'a'->1
+   - Tuple has 1s at indices 0, 4, 19 (same tuple key)
+   - tuple(count) exists in map. Append: {tuple(count): ["eat", "tea"]}
+4. Iteration 3: s = "tan"
+   - Initialize count = [0] * 26
+   - Map characters: 't'->1, 'a'->1, 'n'->1
+   - Tuple has 1s at indices 0, 13, 19
+   - tuple(count) not in map. Create entry: {tuple(count_eat): ["eat", "tea"], tuple(count_tan): ["tan"]}
+5. Return list(anagram_map.values()) -> [["eat", "tea"], ["tan"]]
+"""
+
+
+# ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 
@@ -159,6 +203,32 @@ def groupAnagrams_optimized(strs):
 
 
 # ============================================================================
+# INTERVIEW NOTES & KEY OBSERVATIONS
+# ============================================================================
+"""
+🎯 KEY OBSERVATIONS FOR INTERVIEWS:
+
+1. TIME-SPACE TRADEOFF
+   - By using a HashMap, we can avoid comparing every word with every other word (O(N^2)).
+   - This improves time from quadratic to linear, at the expense of O(N * K) space to store the map.
+
+2. CHOICE OF KEY (SORTED vs COUNT TUPLE)
+   - Sorting each string takes O(K log K) time.
+   - Counting frequencies takes O(K) time because constraints specify lowercase English letters.
+   - Frequency count is faster when strings are long (K is large). Sorting is faster or comparable when K is very small because of smaller constant factor overhead in Python's C-implemented `sorted()`.
+
+3. WHY MULTIPLY COUNT AS KEY?
+   - A list is mutable and cannot be used as a dictionary key in Python.
+   - We must convert the count list to a tuple (which is immutable and hashable) to use it as a key.
+
+4. WHAT TO DISCUSS WITH THE INTERVIEWER:
+   - Ask if the character set is restricted to lowercase English letters (26 characters).
+   - If unicode characters or uppercase letters are allowed, a size 26 array is insufficient, and sorting (O(K log K)) or a general frequency Map (hashmap of size up to character set) should be used.
+   - Discuss order requirements: The problem statement says "You can return the answer in any order," which allows us to return dictionary values directly without sorting the output.
+"""
+
+
+# ============================================================================
 # TEST CASES
 # ============================================================================
 
@@ -241,7 +311,7 @@ if __name__ == "__main__":
         if not passed:
             all_success = False
             
-        status = "✓ PASS" if passed else "✗ FAIL"
+        status = "[PASS]" if passed else "[FAIL]"
         print(f"\nTest {i}: {desc} -> {status}")
         print(f"  Input:    {strs}")
         print(f"  Expected: {expected}")
