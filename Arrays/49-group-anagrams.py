@@ -93,3 +93,29 @@ def groupAnagrams_hashmap(strs):
         anagram_map[sorted_key].append(s)
         
     return list(anagram_map.values())
+
+
+# ============================================================================
+# APPROACH 3: OPTIMIZED HASHMAP (Character Count Key)
+# ============================================================================
+
+def groupAnagrams_optimized(strs):
+    """
+    Optimized HashMap-based approach.
+    Instead of sorting each string (which takes O(K log K) time), we compute the
+    frequency of each character (a-z) in O(K) time.
+    We use a tuple of size 26 containing these frequencies as the key in our map.
+    This runs in O(N * K) time.
+    """
+    anagram_map = defaultdict(list)
+    
+    for s in strs:
+        # Create a frequency count array of size 26 for lowercase English letters
+        count = [0] * 26
+        for char in s:
+            count[ord(char) - ord('a')] += 1
+            
+        # Convert list to tuple to make it hashable and use it as key
+        anagram_map[tuple(count)].append(s)
+        
+    return list(anagram_map.values())
