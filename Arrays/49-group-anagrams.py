@@ -13,6 +13,8 @@ Constraints:
 - strs[i] consists of lowercase English letters.
 """
 
+from collections import defaultdict
+
 # Example 1:
 # Input: strs = ["eat","tea","tan","ate","nat","bat"]
 # Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
@@ -68,3 +70,26 @@ def groupAnagrams_initial(strs):
             groups.append([s])
             
     return groups
+
+
+# ============================================================================
+# APPROACH 2: HASHMAP OPTIMIZATION (Sorted String Key)
+# ============================================================================
+
+def groupAnagrams_hashmap(strs):
+    """
+    HashMap-based approach.
+    Key insight: All anagrams will yield the exact same string when sorted.
+    By using the sorted string as a key in a hash map, we can group all anagrams
+    together in O(N * K log K) time, where N is the number of strings and K is the
+    maximum length of a string.
+    """
+    anagram_map = defaultdict(list)
+    
+    for s in strs:
+        # Sort the characters of s and join them back into a string key
+        sorted_key = "".join(sorted(s))
+        # Group s under this unique sorted key
+        anagram_map[sorted_key].append(s)
+        
+    return list(anagram_map.values())
