@@ -87,3 +87,12 @@ Interview Insights:
 - Ask clarifying questions about constraints, edge cases, etc.
 """
 
+"""
+Edge Cases:
+1. Single element equal to target: nums=[5], target=5 → Output:1
+2. Single element smaller than target: nums=[3], target=5 → Output:0
+3. Entire array sum less than target: nums=[1,1,1], target=5 → Output:0
+4. Target exactly matches entire array sum: nums=[2,3,1], target=6 → Output:3
+5. Multiple valid windows: nums=[2,3,1,2,4,3], target=7 → Output:2
+"""
+
