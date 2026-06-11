@@ -56,3 +56,11 @@ to find the minimal subarray length in O(n) time.
    as the window expands, and decreases monotonically as the window shrinks.
 """
 
+class Solution:
+    def minSubArrayLen(self, target: int, nums: list[int]) -> int:
+        left = 0
+        current_sum = 0
+        min_len = float('inf')
+        
+        return 0
+
