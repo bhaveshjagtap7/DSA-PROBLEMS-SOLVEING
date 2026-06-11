@@ -43,3 +43,16 @@ def minSubArrayLenBruteForce(target: int, nums: list[int]) -> int:
                 
     return 0 if min_len == float('inf') else min_len
 
+"""
+Sliding Window Intuition:
+Rather than checking all subarrays from scratch, we can use a sliding window (two pointers, left and right) 
+to find the minimal subarray length in O(n) time.
+1. We expand the window by moving the `right` pointer to the right and adding `nums[right]` to our running sum.
+2. As soon as the running sum is greater than or equal to `target`, we try to shrink the window from the left 
+   by moving the `left` pointer to the right. 
+3. Shrinking the window helps us find the smallest valid subarray ending at the current `right` pointer that satisfies the condition. 
+4. We record the minimum window size at each step where the sum >= target.
+5. This works because all elements in `nums` are positive, which means the subarray sum increases monotonically 
+   as the window expands, and decreases monotonically as the window shrinks.
+"""
+
