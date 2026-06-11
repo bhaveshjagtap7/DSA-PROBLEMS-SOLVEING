@@ -72,3 +72,18 @@ class Solution:
         
         return 0 if min_len == float('inf') else min_len
 
+
+"""
+Time Complexity:
+- Brute Force: O(n^2) - Two nested loops
+- Sliding Window: O(n) - Each element is processed at most twice (once by right pointer, once by left pointer)
+
+Space Complexity:
+- Both approaches use O(1) additional space (excluding input storage)
+
+Interview Insights:
+- Always start with brute force, then optimize
+- The sliding window only works when elements are positive (monotonic sum property)
+- Ask clarifying questions about constraints, edge cases, etc.
+"""
+
