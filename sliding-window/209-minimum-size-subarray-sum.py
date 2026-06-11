@@ -23,3 +23,23 @@ Example 3:
 Input: target = 11, nums = [1,1,1,1,1,1,1,1]
 Output: 0
 """
+
+def minSubArrayLenBruteForce(target: int, nums: list[int]) -> int:
+    """
+    Brute Force Approach:
+    Iterate through all possible subarrays, calculate their sums, and check if they are >= target.
+    Since we want the minimal length, we track the minimum length found.
+    """
+    n = len(nums)
+    min_len = float('inf')
+    
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, n):
+            current_sum += nums[j]
+            if current_sum >= target:
+                min_len = min(min_len, j - i + 1)
+                break
+                
+    return 0 if min_len == float('inf') else min_len
+
