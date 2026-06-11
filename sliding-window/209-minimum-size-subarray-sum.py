@@ -64,6 +64,10 @@ class Solution:
         
         for right in range(len(nums)):
             current_sum += nums[right]
+            
+            while current_sum >= target:
+                current_sum -= nums[left]
+                left += 1
         
         return 0
 
