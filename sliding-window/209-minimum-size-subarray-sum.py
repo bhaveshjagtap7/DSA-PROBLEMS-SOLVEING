@@ -62,5 +62,8 @@ class Solution:
         current_sum = 0
         min_len = float('inf')
         
+        for right in range(len(nums)):
+            current_sum += nums[right]
+        
         return 0
 
