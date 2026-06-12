@@ -58,29 +58,33 @@ we can optimize by using a sliding window approach of fixed size k:
 
 class Solution:
     def maxVowels(self, s: str, k: int) -> int:
+        """
+        Optimized sliding window approach to find maximum number of vowels in any substring of length k.
+        """
         vowels = {'a', 'e', 'i', 'o', 'u'}
         n = len(s)
-        current_vowels = 0
+        current_vowel_count = 0
         
-        # Calculate initial window sum
+        # Initialize the first window
         for i in range(k):
             if s[i] in vowels:
-                current_vowels += 1
+                current_vowel_count += 1
         
-        max_vowels = current_vowels
+        max_vowel_count = current_vowel_count
         
-        # Slide the window
-        for i in range(k, n):
-            # Remove leftmost character of previous window
-            if s[i - k] in vowels:
-                current_vowels -= 1
-            # Add new rightmost character of current window
-            if s[i] in vowels:
-                current_vowels += 1
+        # Slide the window across the string
+        for right in range(k, n):
+            # Remove the leftmost character from the previous window
+            if s[right - k] in vowels:
+                current_vowel_count -= 1
+            # Add the new rightmost character to the current window
+            if s[right] in vowels:
+                current_vowel_count += 1
             
-            max_vowels = max(max_vowels, current_vowels)
+            # Update the maximum if current window has more vowels
+            max_vowel_count = max(max_vowel_count, current_vowel_count)
         
-        return max_vowels
+        return max_vowel_count
 
 
 """
