@@ -55,3 +55,29 @@ we can optimize by using a sliding window approach of fixed size k:
    and add 1 if the new element entering the window is a vowel.
 3. Keep track of the maximum count encountered!
 """
+
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        vowels = {'a', 'e', 'i', 'o', 'u'}
+        n = len(s)
+        current_vowels = 0
+        
+        # Calculate initial window sum
+        for i in range(k):
+            if s[i] in vowels:
+                current_vowels += 1
+        
+        max_vowels = current_vowels
+        
+        # Slide the window
+        for i in range(k, n):
+            # Remove leftmost character of previous window
+            if s[i - k] in vowels:
+                current_vowels -= 1
+            # Add new rightmost character of current window
+            if s[i] in vowels:
+                current_vowels += 1
+            
+            max_vowels = max(max_vowels, current_vowels)
+        
+        return max_vowels
