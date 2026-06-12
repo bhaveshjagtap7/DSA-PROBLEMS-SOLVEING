@@ -44,3 +44,14 @@ def maxVowelsBruteForce(s: str, k: int) -> int:
         max_count = max(max_count, current_count)
     
     return max_count
+
+
+"""
+Sliding Window Intuition:
+Instead of recalculating the number of vowels for every new window from scratch, 
+we can optimize by using a sliding window approach of fixed size k:
+1. Calculate the number of vowels in the first window (from 0 to k-1)
+2. Then, for each subsequent window, subtract 1 if the element leaving the window is a vowel,
+   and add 1 if the new element entering the window is a vowel.
+3. Keep track of the maximum count encountered!
+"""
