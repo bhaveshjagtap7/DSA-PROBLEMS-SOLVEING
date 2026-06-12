@@ -25,3 +25,22 @@ Input: s = "leetcode", k = 3
 Output: 2
 Explanation: "lee", "eet" and "ode" contain 2 vowels.
 """
+
+def maxVowelsBruteForce(s: str, k: int) -> int:
+    """
+    Brute Force Approach:
+    Iterate over every possible window of size k, count the number of vowels in each window,
+    and keep track of the maximum count found.
+    """
+    vowels = {'a', 'e', 'i', 'o', 'u'}
+    max_count = 0
+    n = len(s)
+    
+    for i in range(n - k + 1):
+        current_count = 0
+        for j in range(i, i + k):
+            if s[j] in vowels:
+                current_count += 1
+        max_count = max(max_count, current_count)
+    
+    return max_count
