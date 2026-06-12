@@ -81,3 +81,32 @@ class Solution:
             max_vowels = max(max_vowels, current_vowels)
         
         return max_vowels
+
+
+"""
+Time Complexity:
+- Brute force: O(n*k) - For each of (n - k + 1) windows, we check k elements
+- Sliding window: O(n) - We process each character exactly twice (once when adding, once when removing)
+
+Space Complexity:
+- Both approaches use O(1) additional space (only a few variables and a fixed-size vowel set)
+
+Edge Cases:
+1. k equals length of string (s = "a", k=1 → 1)
+2. No vowels at all (s = "xyz", k=2 → 0)
+3. All vowels (s = "aeiou", k=5 →5)
+4. k=1 (max single character vowel count)
+
+Dry Run Example:
+s = "abciiidef", k=3
+Initial window: "abc" → 1 vowel
+Next window: "bci" → 1 vowel
+Next: "cii" → 2 vowels
+Next: "iii" → 3 vowels (max)
+Next: "iid" →2, "ide"→2, "def"→1 → final max is 3
+
+Interview Notes:
+- Always start with brute force to show understanding, then optimize
+- Sliding window is perfect for fixed-size subarray problems
+- Remember to use a set for O(1) vowel lookups
+"""
