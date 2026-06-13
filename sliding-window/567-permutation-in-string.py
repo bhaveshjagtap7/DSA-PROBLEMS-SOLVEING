@@ -66,4 +66,14 @@ class Solution:
         # Step 2: Initialize frequency map for initial window of s2 (first len_s1 characters)
         window_freq = get_frequency_map(s2[:len_s1])
         
+        # Step 3: Slide the window across s2
+        for right in range(len_s1, len_s2):
+            # Add new character to window
+            right_char = s2[right]
+            window_freq[ord(right_char) - ord('a')] += 1
+            
+            # Remove left character from window
+            left_char = s2[right - len_s1]
+            window_freq[ord(left_char) - ord('a')] -= 1
+        
         return False
