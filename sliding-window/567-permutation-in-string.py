@@ -66,6 +66,17 @@ class Solution:
         # Step 2: Initialize frequency map for initial window of s2 (first len_s1 characters)
         window_freq = get_frequency_map(s2[:len_s1])
         
+        # Helper to compare two frequency maps
+        def are_freqs_equal(freq1: list[int], freq2: list[int]) -> bool:
+            for i in range(26):
+                if freq1[i] != freq2[i]:
+                    return False
+            return True
+        
+        # Check initial window
+        if are_freqs_equal(s1_freq, window_freq):
+            return True
+        
         # Step 3: Slide the window across s2
         for right in range(len_s1, len_s2):
             # Add new character to window
@@ -75,5 +86,9 @@ class Solution:
             # Remove left character from window
             left_char = s2[right - len_s1]
             window_freq[ord(left_char) - ord('a')] -= 1
+            
+            # Check current window after sliding
+            if are_freqs_equal(s1_freq, window_freq):
+                return True
         
         return False
