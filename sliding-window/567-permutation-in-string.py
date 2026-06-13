@@ -105,3 +105,33 @@ class Solution:
                 return True
         
         return False
+
+
+"""
+Time Complexity:
+- Brute force: O(n! * n * m), which is way too slow
+- Optimized sliding window (current): O(n + m), since we process each character in s1 and s2 exactly once, and the frequency map operations are O(26) → which is O(1) constant time
+Space Complexity:
+- O(1), since we use fixed-size arrays of size 26, regardless of input size
+
+Edge Cases:
+1. s1 length > s2 length → return False immediately
+2. s1 exactly matches entire s2 → return True
+3. s1 length = 1 (check if s2 contains that single character
+4. All characters same (e.g., s1 = "aaa", s2 = "aaabaaa")
+5. s2 contains permutation at the very start of s2
+6. s2 contains permutation at the very end of s2
+
+Dry Run Example:
+s1 = "ab" (freq: a:1, b:1), s2 = "eidbaooo"
+- Initial window = "ei" (freq e:1, i:1, matches with s1? a:0, b:0 → matches: 24 not 26 → no)
+- Slide to right: "id" → same as above
+- Next: "db" → d:1, b:1 → matches 24
+- Next: "ba" → b:1, a:1 → matches 26! → return True!
+
+Interview Insights:
+- Always check edge cases first! (like s1 longer than s2)
+- Frequency map is a common pattern for permutation/anagram problems
+- Optimizing the comparison using "matches" counter is a key optimization to avoid O(26) checks every time (though even O(26) is acceptable, but matches makes it cleaner and faster in practice
+- Using arrays for frequency maps (since lowercase letters are fixed at 26) are more efficient than hash maps in this problem
+"""
