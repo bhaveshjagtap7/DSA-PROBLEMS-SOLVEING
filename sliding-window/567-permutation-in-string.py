@@ -18,3 +18,11 @@ Example 2:
 Input: s1 = "ab", s2 = "eidboaoo"
 Output: false
 """
+
+"""
+Initial Brute Force Idea:
+1. Generate all permutations of s1 (O(n!))
+2. Check each permutation to see if it exists as a substring of s2 (O(m * n))
+Total time: O(n! * m * n) — this is way too slow for n >= 10, let alone 10^4!
+So we definitely need a smarter approach!
+"""
