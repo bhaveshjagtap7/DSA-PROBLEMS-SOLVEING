@@ -26,3 +26,17 @@ Initial Brute Force Idea:
 Total time: O(n! * m * n) — this is way too slow for n >= 10, let alone 10^4!
 So we definitely need a smarter approach!
 """
+
+"""
+Frequency Map Explanation:
+Since two strings are permutations of each other if and only if they have exactly the same character frequencies,
+we don't need to generate permutations at all! Instead, we can count the frequency of each character in s1,
+and then check if any window of length len(s1) in s2 has the exact same frequency counts!
+"""
+
+# Helper to create frequency map for a string
+def get_frequency_map(s: str) -> list[int]:
+    freq = [0] * 26  # 26 lowercase English letters
+    for char in s:
+        freq[ord(char) - ord('a')] += 1
+    return freq
