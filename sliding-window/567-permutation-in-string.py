@@ -34,14 +34,6 @@ we don't need to generate permutations at all! Instead, we can count the frequen
 and then check if any window of length len(s1) in s2 has the exact same frequency counts!
 """
 
-# Helper to create frequency map for a string
-def get_frequency_map(s: str) -> list[int]:
-    freq = [0] * 26  # 26 lowercase English letters
-    for char in s:
-        freq[ord(char) - ord('a')] += 1
-    return freq
-
-
 """
 Sliding Window Intuition:
 - We need to check all windows of length len(s1) in s2
