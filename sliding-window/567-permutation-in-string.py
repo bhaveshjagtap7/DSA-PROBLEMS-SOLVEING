@@ -40,3 +40,30 @@ def get_frequency_map(s: str) -> list[int]:
     for char in s:
         freq[ord(char) - ord('a')] += 1
     return freq
+
+
+"""
+Sliding Window Intuition:
+- We need to check all windows of length len(s1) in s2
+- Instead of recalculating frequency map for each window from scratch,
+  we can maintain a sliding frequency map that adds the new character entering the window
+  and removes the character that's leaving the window (as we slide the window)
+- When the sliding window's frequency matches s1's frequency, return True!
+"""
+
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        len_s1 = len(s1)
+        len_s2 = len(s2)
+        
+        # If s1 is longer than s2, impossible to have permutation
+        if len_s1 > len_s2:
+            return False
+        
+        # Step 1: Get frequency map for s1
+        s1_freq = get_frequency_map(s1)
+        
+        # Step 2: Initialize frequency map for initial window of s2 (first len_s1 characters)
+        window_freq = get_frequency_map(s2[:len_s1])
+        
+        return False
