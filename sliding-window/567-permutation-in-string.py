@@ -60,35 +60,48 @@ class Solution:
         if len_s1 > len_s2:
             return False
         
-        # Step 1: Get frequency map for s1
-        s1_freq = get_frequency_map(s1)
+        # Step 1: Initialize frequency maps
+        s1_freq = [0] * 26
+        window_freq = [0] * 26
+        for i in range(len_s1):
+            s1_freq[ord(s1[i]) - ord('a')] += 1
+            window_freq[ord(s2[i]) - ord('a')] += 1
         
-        # Step 2: Initialize frequency map for initial window of s2 (first len_s1 characters)
-        window_freq = get_frequency_map(s2[:len_s1])
+        # Step 2: Calculate initial number of matching frequencies
+        matches = 0
+        for i in range(26):
+            if s1_freq[i] == window_freq[i]:
+                matches += 1
         
-        # Helper to compare two frequency maps
-        def are_freqs_equal(freq1: list[int], freq2: list[int]) -> bool:
-            for i in range(26):
-                if freq1[i] != freq2[i]:
-                    return False
+        # Check if initial window is a match
+        if matches == 26:
             return True
         
-        # Check initial window
-        if are_freqs_equal(s1_freq, window_freq):
-            return True
-        
-        # Step 3: Slide the window across s2
+        # Step 3: Slide the window
         for right in range(len_s1, len_s2):
-            # Add new character to window
-            right_char = s2[right]
-            window_freq[ord(right_char) - ord('a')] += 1
+            # Process right character (add to window)
+            r_idx = ord(s2[right]) - ord('a')
+            # If before adding, frequencies matched, we lose a match
+            if window_freq[r_idx] == s1_freq[r_idx]:
+                matches -= 1
+            window_freq[r_idx] += 1
+            # If now they match again, gain a match
+            if window_freq[r_idx] == s1_freq[r_idx]:
+                matches += 1
             
-            # Remove left character from window
-            left_char = s2[right - len_s1]
-            window_freq[ord(left_char) - ord('a')] -= 1
+            # Process left character (remove from window)
+            left = right - len_s1
+            l_idx = ord(s2[left]) - ord('a')
+            # If before removing, frequencies matched, lose a match
+            if window_freq[l_idx] == s1_freq[l_idx]:
+                matches -= 1
+            window_freq[l_idx] -= 1
+            # If now they match again, gain a match
+            if window_freq[l_idx] == s1_freq[l_idx]:
+                matches += 1
             
-            # Check current window after sliding
-            if are_freqs_equal(s1_freq, window_freq):
+            # If all 26 characters match, return True immediately
+            if matches == 26:
                 return True
         
         return False
